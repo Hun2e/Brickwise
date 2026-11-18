@@ -1,4 +1,4 @@
-# LEGO Archive & Build Planner — RAG 기반 레고 스타워즈 지식·제작 도우미
+# Brickwise 상세 문서 — 기능 명세·데이터 준비·출처
 
 > SSAFY AI 코어 프로젝트 · 개인 프로젝트 (2026.10)
 > LEGO Group과 무관한 비공식 팬 프로젝트입니다.
@@ -89,9 +89,9 @@ copy .env.example .env                      # GMS_KEY(OpenAI 호환 API 키), WI
 | Brickipedia (Fandom) | 사용하지 않음 | 약관 확인 전 보류 |
 
 ## 산출물
-- [RAG 파이프라인 설계문서](docs/02_RAG파이프라인설계.md)
-- [검증 결과](docs/03_검증결과.md)
-- [RAG 전후 비교](docs/04_RAG전후비교.md)
-- [심화 · 고도화 로드맵](docs/05_심화고도화로드맵.md)
+- [RAG 파이프라인 설계문서](02_RAG파이프라인설계.md)
+- [검증 결과](03_검증결과.md)
+- [RAG 전후 비교](04_RAG전후비교.md)
+- [심화 · 고도화 로드맵](05_심화고도화로드맵.md)
 - 개발 기록: `docs/pm/` (작업지시서 T-001~T-026, 설계 결정 ADR-001~018)
 
