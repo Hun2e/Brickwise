@@ -1,0 +1,88 @@
+{
+ "request": {
+  "lang": "en",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "prop": "langlinks",
+   "lllang": "ko",
+   "titles": "Millennium Falcon|X-wing fighter|TIE fighter|AT-AT|Star Destroyer|Lego Star Wars",
+   "redirects": 1
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "redirects": [
+    {
+     "from": "AT-AT",
+     "to": "Walker (Star Wars)",
+     "tofragment": "All Terrain Armored Transport (AT-AT)"
+    }
+   ],
+   "pages": [
+    {
+     "pageid": 50790,
+     "ns": 0,
+     "title": "Star Destroyer",
+     "langlinks": [
+      {
+       "lang": "ko",
+       "title": "스타 디스트로이어"
+      }
+     ]
+    },
+    {
+     "pageid": 50795,
+     "ns": 0,
+     "title": "TIE fighter",
+     "langlinks": [
+      {
+       "lang": "ko",
+       "title": "타이 파이터"
+      }
+     ]
+    },
+    {
+     "pageid": 50801,
+     "ns": 0,
+     "title": "X-wing fighter",
+     "langlinks": [
+      {
+       "lang": "ko",
+       "title": "X-윙"
+      }
+     ]
+    },
+    {
+     "pageid": 7049188,
+     "ns": 0,
+     "title": "Lego Star Wars",
+     "langlinks": [
+      {
+       "lang": "ko",
+       "title": "레고 스타워즈"
+      }
+     ]
+    },
+    {
+     "pageid": 12766839,
+     "ns": 0,
+     "title": "Walker (Star Wars)"
+    },
+    {
+     "pageid": 23861227,
+     "ns": 0,
+     "title": "Millennium Falcon",
+     "langlinks": [
+      {
+       "lang": "ko",
+       "title": "밀레니엄 팰컨"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,81 @@
+# 세트명 → 기체·캐릭터·집단·장소 위키 문서 매핑 규칙 (ADR-008 결정 2: 규칙 + 별칭 사전)
+# - PM 관리 데이터. 2026-10-21 범위 332세트 이름 키워드 분석과 위키백과 API 실측으로 작성했다.
+# - pattern: 대소문자 무시 정규식. 세트명(sets.name)에 적용한다.
+# - wiki_title: 영어 위키백과의 "리다이렉트 해석 후 최종 제목". ko_title: 언어 링크로 확인한 한국어 제목 (없으면 null).
+# - kind: vehicle | character | group | place | media | list
+#   list = 개별 문서가 없어 목록 문서로 리다이렉트되는 대상 (예: B-wing → List of Star Wars starfighters).
+#   이 대상을 포함할지는 T-005 검토 결정 사항이다 (include_list_pages).
+# - 한 세트에 여러 규칙이 매칭될 수 있다 (예: "Luke Skywalker's X-Wing Fighter" → X-wing fighter, Luke Skywalker).
+
+version: 1
+include_list_pages: false   # T-005 검토에서 결정
+
+rules:
+  # ── 기체 ─────────────────────────────────────────────
+  - {kind: vehicle, pattern: 'millennium falcon', wiki_title: 'Millennium Falcon', ko_title: '밀레니엄 팰컨'}
+  - {kind: vehicle, pattern: 'x-wing|red five', wiki_title: 'X-wing fighter', ko_title: 'X-윙'}
+  - {kind: vehicle, pattern: '\btie\b', wiki_title: 'TIE fighter', ko_title: '타이 파이터'}
+  - {kind: vehicle, pattern: 'a-wing', wiki_title: 'A-wing', ko_title: null}
+  - {kind: vehicle, pattern: 'y-wing', wiki_title: 'Y-wing', ko_title: 'Y-윙'}
+  - {kind: vehicle, pattern: '\bat-at\b|\bat-st\b|\bat-rt\b|\bat-te\b|\bat-dp\b|\bat-hauler\b|\bwalker\b', wiki_title: 'Walker (Star Wars)', ko_title: null}
+  - {kind: vehicle, pattern: 'star destroyer', wiki_title: 'Star Destroyer', ko_title: '스타 디스트로이어'}
+  - {kind: vehicle, pattern: 'death star', wiki_title: 'Death Star', ko_title: '데스 스타'}
+  - {kind: vehicle, pattern: 'speeder bike', wiki_title: 'Speeder bike', ko_title: null}
+  - {kind: vehicle, pattern: 'landspeeder', wiki_title: 'Landspeeder', ko_title: '랜드스피더'}
+  - {kind: vehicle, pattern: 'snowspeeder', wiki_title: 'Snow-speeder', ko_title: null}
+  # 목록 문서로 리다이렉트되는 기체 (include_list_pages=true일 때만 사용)
+  - {kind: list, pattern: 'b-wing|u-wing|jedi starfighter|jedi interceptor|naboo starfighter', wiki_title: 'List of Star Wars starfighters', ko_title: null}
+  - {kind: list, pattern: 'imperial shuttle|lambda|command shuttle|slave i\b|boba fett''s starship', wiki_title: 'List of Star Wars spacecraft', ko_title: null}
+  - {kind: list, pattern: '\bnaboo\b|\bjakku\b|\bscarif\b', wiki_title: 'List of Star Wars planets and moons', ko_title: '스타워즈의 행성 목록'}
+
+  # ── 캐릭터 ───────────────────────────────────────────
+  - {kind: character, pattern: 'darth vader|\bvader|anakin', wiki_title: 'Darth Vader', ko_title: '다스 베이더'}   # Anakin Skywalker는 Darth Vader로 리다이렉트
+  - {kind: character, pattern: '\bluke\b', wiki_title: 'Luke Skywalker', ko_title: '루크 스카이워커'}
+  - {kind: character, pattern: 'han solo|\bhan''s', wiki_title: 'Han Solo', ko_title: '한 솔로'}
+  - {kind: character, pattern: '\bleia\b', wiki_title: 'Princess Leia', ko_title: '레아 오르가나'}
+  - {kind: character, pattern: '\byoda', wiki_title: 'Yoda', ko_title: '요다'}
+  - {kind: character, pattern: 'obi-wan', wiki_title: 'Obi-Wan Kenobi', ko_title: '오비완 케노비'}
+  - {kind: character, pattern: 'kylo ren', wiki_title: 'Kylo Ren', ko_title: '카일로 렌'}
+  - {kind: character, pattern: 'boba fett', wiki_title: 'Boba Fett', ko_title: '보바 펫'}
+  - {kind: character, pattern: 'jango fett', wiki_title: 'Jango Fett', ko_title: '장고 펫'}
+  - {kind: character, pattern: 'mandalorian|din djarin|grogu|razor crest', wiki_title: 'Mandalorian (character)', ko_title: null}
+  - {kind: character, pattern: 'ahsoka', wiki_title: 'Ahsoka Tano', ko_title: '아소카 타노'}
+  - {kind: character, pattern: 'grievous', wiki_title: 'General Grievous', ko_title: '그리버스 장군'}
+  - {kind: character, pattern: 'chewbacca', wiki_title: 'Chewbacca', ko_title: '츄바카'}
+  - {kind: character, pattern: 'r2-d2', wiki_title: 'R2-D2', ko_title: 'R2-D2'}
+  - {kind: character, pattern: 'c-3po', wiki_title: 'C-3PO', ko_title: 'C-3PO'}
+  - {kind: character, pattern: 'emperor|palpatine', wiki_title: 'Palpatine', ko_title: '쉬브 팰퍼틴'}
+  - {kind: character, pattern: '\brey\b|\brey''s', wiki_title: 'Rey (Star Wars)', ko_title: '레이 (스타워즈)'}
+  - {kind: character, pattern: 'poe dameron', wiki_title: 'Poe Dameron', ko_title: '포 다메론'}
+  - {kind: character, pattern: '\bbb-8\b', wiki_title: 'BB-8', ko_title: 'BB-8'}
+  - {kind: character, pattern: 'jyn erso', wiki_title: 'Jyn Erso', ko_title: '진 어소'}
+  - {kind: character, pattern: 'k-2so', wiki_title: 'K-2SO', ko_title: null}
+  - {kind: character, pattern: 'darth maul', wiki_title: 'Darth Maul', ko_title: '다스 몰'}
+  - {kind: character, pattern: 'mace windu', wiki_title: 'Mace Windu', ko_title: '메이스 윈두'}
+  - {kind: character, pattern: 'count dooku|\bdooku', wiki_title: 'Count Dooku', ko_title: '두쿠 백작'}
+  - {kind: character, pattern: 'cad bane', wiki_title: 'Cad Bane', ko_title: null}
+
+  # ── 집단·종족 ────────────────────────────────────────
+  - {kind: group, pattern: 'clone', wiki_title: 'Clone trooper', ko_title: null}
+  - {kind: group, pattern: 'stormtrooper|imperial trooper|scout trooper|snowtrooper|shadow trooper|death trooper', wiki_title: 'Stormtrooper', ko_title: null}
+  - {kind: group, pattern: 'first order', wiki_title: 'First Order (Star Wars)', ko_title: '퍼스트 오더'}
+  - {kind: group, pattern: 'resistance', wiki_title: 'Resistance (Star Wars)', ko_title: '저항군 (스타워즈)'}
+  - {kind: group, pattern: 'rebel', wiki_title: 'Rebel Alliance', ko_title: '반란군 연합'}
+  - {kind: group, pattern: 'galactic empire|\bimperial\b', wiki_title: 'Galactic Empire', ko_title: '은하제국 (스타워즈)'}
+  - {kind: group, pattern: '\bjedi\b', wiki_title: 'Jedi', ko_title: '제다이'}
+  - {kind: group, pattern: '\bsith\b', wiki_title: 'Sith', ko_title: '시스 (스타워즈)'}
+  - {kind: group, pattern: 'battle droid|droideka|\bdroid', wiki_title: 'Droid (Star Wars)', ko_title: null}
+  - {kind: group, pattern: 'wookiee|kashyyyk', wiki_title: 'Wookiee', ko_title: '우키 (스타워즈)'}
+
+  # ── 장소 ─────────────────────────────────────────────
+  - {kind: place, pattern: '\bhoth\b', wiki_title: 'Hoth', ko_title: '호스 (스타워즈)'}
+  - {kind: place, pattern: 'tatooine|mos eisley', wiki_title: 'Tatooine', ko_title: '타투인'}
+  - {kind: place, pattern: '\bendor\b', wiki_title: 'Endor (Star Wars)', ko_title: '엔도 (스타워즈)'}
+  - {kind: place, pattern: 'kamino', wiki_title: 'Kamino', ko_title: '가미노'}
+  - {kind: place, pattern: 'mandalore\b', wiki_title: 'Mandalorians', ko_title: '만달로리안'}
+  - {kind: place, pattern: 'geonosis', wiki_title: 'Geonosis', ko_title: null}
+  - {kind: place, pattern: 'dagobah', wiki_title: 'Dagobah', ko_title: '대고바'}
+
+  # ── 작품 (세트명만으로 알 수 있는 경우) ────────────────
+  - {kind: media, pattern: '\bezra\b|the ghost|the phantom|\bhera\b|\bkanan\b', wiki_title: 'Star Wars Rebels', ko_title: '스타워즈 반란군'}
+  - {kind: media, pattern: '\bbaze\b|chirrut|\bscarif\b', wiki_title: 'Rogue One', ko_title: '로그 원: 스타워즈 스토리'}

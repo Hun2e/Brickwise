@@ -1,0 +1,28 @@
+{
+ "request": {
+  "lang": "en",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "prop": "info",
+   "titles": "Nonexistent Page Xyzzy 123"
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "ns": 0,
+     "title": "Nonexistent Page Xyzzy 123",
+     "missing": true,
+     "contentmodel": "wikitext",
+     "pagelanguage": "en",
+     "pagelanguagehtmlcode": "en",
+     "pagelanguagedir": "ltr"
+    }
+   ]
+  }
+ }
+}

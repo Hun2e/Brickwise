@@ -1,0 +1,708 @@
+{
+  "schema_version": 1,
+  "experiment": "routing",
+  "created_at": "2026-10-22T07:21:36.776996+00:00",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": false,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "unsupported_attrs": "config/unsupported_attrs.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "error_log": "logs/eval_error.log",
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "similarity_fetch_k": 20,
+      "query_mode": "question",
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "mmr",
+      "mmr_fetch_k": 40,
+      "mmr_lambda": 0.7,
+      "mmr_apply_caps": false,
+      "mmr_caps": "none",
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_intro_chars": 500,
+      "domain_keywords": [
+        "star wars",
+        "스타워즈",
+        "스타 워즈",
+        "jedi",
+        "제다이",
+        "sith",
+        "시스 로드",
+        "시스 군주",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "레고",
+        "skywalker",
+        "스카이워커",
+        "death star",
+        "데스 스타",
+        "millennium falcon",
+        "밀레니엄 팔콘",
+        "republic attack gunship",
+        "boba fett",
+        "보바 펫",
+        "darth vader",
+        "다스 베이더"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v3",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "narrative_cues": [
+        "특징",
+        "역사",
+        "설명",
+        "어떤",
+        "왜",
+        "배경",
+        "활약",
+        "장면",
+        "이야기",
+        "소개"
+      ],
+      "recommendation_refs": [
+        "그 기체",
+        "그거",
+        "그 세트"
+      ],
+      "recommendation_cues": [
+        "추천",
+        "만들 수 있는"
+      ],
+      "ignore_color_cues": [
+        "색깔 상관없이",
+        "색상 상관없이",
+        "색깔 무시",
+        "색상 무시",
+        "색깔은 상관없",
+        "색상은 상관없"
+      ]
+    }
+  },
+  "settings_hash": "676a45f46f1fdf655d8925719027e12df247f2c470eddd4617e001861c9833bb",
+  "dataset_hash": "e68f3cf01f93169e5c56a3c48d44c37e27b2c3c92e773e987caa8cfd0e6e5288",
+  "rows": [
+    {
+      "id": "RH-01",
+      "question": "75292 레이저 크레스트에 나오는 딘 자린은 어떤 인물이야?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [
+        "세트번호+캐릭터"
+      ],
+      "source": "pm",
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1269,
+          "output_tokens": 44,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-02",
+      "question": "이 헬멧 주인인 레아는 어떤 사람이야?",
+      "selected_set": "75351-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [
+        "지시어+캐릭터"
+      ],
+      "source": "pm",
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1282,
+          "output_tokens": 39,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-03",
+      "question": "75300 타이 파이터 조종사들은 영화에서 어떤 역할이야?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [
+        "세트번호+서사"
+      ],
+      "source": "pm",
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1265,
+          "output_tokens": 41,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-04",
+      "question": "75300 타이 파이터에 피겨 몇 개 들어있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [
+        "동의어-피겨"
+      ],
+      "source": "pm",
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1263,
+          "output_tokens": 36,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-05",
+      "question": "75292 레이저 크레스트 부품 몇 개야?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [
+        "대조군-속성"
+      ],
+      "source": "pm",
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1262,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-06",
+      "question": "이거 언제 출시됐어?",
+      "selected_set": "75288-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [
+        "대조군-지시어"
+      ],
+      "source": "pm",
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1269,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-07",
+      "question": "색 무시하고 내 부품으로 조립 가능한 세트 알려줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build",
+      "tags": [
+        "모드-색상무시"
+      ],
+      "source": "pm",
+      "predicted_route": "build",
+      "llm_route": "build",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1264,
+          "output_tokens": 28,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-08",
+      "question": "부품 색 달라도 괜찮으니까 만들 수 있는 거 뭐 있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build",
+      "tags": [
+        "모드-색상무시",
+        "구어체"
+      ],
+      "source": "pm",
+      "predicted_route": "build",
+      "llm_route": "build",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1265,
+          "output_tokens": 28,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-09",
+      "question": "내 컬렉션으로 만들 수 있는 세트 하나 골라서 그 배가 나온 장면도 설명해줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [
+        "결합",
+        "지시어"
+      ],
+      "source": "pm",
+      "predicted_route": "build_archive",
+      "llm_route": "build_archive",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1273,
+          "output_tokens": 29,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "RH-10",
+      "question": "Suggest something I can build from my parts and explain the ship's backstory",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [
+        "결합",
+        "영어"
+      ],
+      "source": "pm",
+      "predicted_route": "build",
+      "llm_route": "build_archive",
+      "route_source": "rule:no_narrative",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1264,
+          "output_tokens": 34,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": false
+    },
+    {
+      "id": "RH-11",
+      "question": "만들 수 있는 거 추천해주고, 그거 영화에서 뭐 했는지도",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [
+        "결합",
+        "지시어",
+        "구어체"
+      ],
+      "source": "pm",
+      "predicted_route": "build",
+      "llm_route": "build_archive",
+      "route_source": "rule:no_narrative",
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "usage": {
+        "router": {
+          "input_tokens": 1267,
+          "output_tokens": 29,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": false
+    },
+    {
+      "id": "RH-12",
+      "question": "75192랑 75375 팔콘 차이 뭐야?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [
+        "대조군-비교"
+      ],
+      "source": "pm",
+      "predicted_route": "compare",
+      "llm_route": "compare",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "input_tokens": 1261,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        }
+      },
+      "correct": true
+    }
+  ],
+  "summary": {
+    "count": 12,
+    "correct": 10,
+    "accuracy": 0.8333333333333334,
+    "confusion": {
+      "build": {
+        "build": 2,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "narrative": 0
+      },
+      "build_archive": {
+        "build": 2,
+        "build_archive": 1,
+        "compare": 0,
+        "fact": 0,
+        "narrative": 0
+      },
+      "compare": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 1,
+        "fact": 0,
+        "narrative": 0
+      },
+      "fact": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 3,
+        "narrative": 0
+      },
+      "narrative": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "narrative": 3
+      }
+    },
+    "incorrect_ids": [
+      "RH-10",
+      "RH-11"
+    ]
+  }
+}

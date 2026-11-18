@@ -1,0 +1,12 @@
+{"id": "RH-01", "question": "75292 레이저 크레스트에 나오는 딘 자린은 어떤 인물이야?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "narrative", "tags": ["세트번호+캐릭터"], "source": "pm"}
+{"id": "RH-02", "question": "이 헬멧 주인인 레아는 어떤 사람이야?", "selected_set": "75351-1", "history": [], "has_collection": false, "expected_route": "narrative", "tags": ["지시어+캐릭터"], "source": "pm"}
+{"id": "RH-03", "question": "75300 타이 파이터 조종사들은 영화에서 어떤 역할이야?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "narrative", "tags": ["세트번호+서사"], "source": "pm"}
+{"id": "RH-04", "question": "75300 타이 파이터에 피겨 몇 개 들어있어?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "fact", "tags": ["동의어-피겨"], "source": "pm"}
+{"id": "RH-05", "question": "75292 레이저 크레스트 부품 몇 개야?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "fact", "tags": ["대조군-속성"], "source": "pm"}
+{"id": "RH-06", "question": "이거 언제 출시됐어?", "selected_set": "75288-1", "history": [], "has_collection": false, "expected_route": "fact", "tags": ["대조군-지시어"], "source": "pm"}
+{"id": "RH-07", "question": "색 무시하고 내 부품으로 조립 가능한 세트 알려줘", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build", "tags": ["모드-색상무시"], "source": "pm"}
+{"id": "RH-08", "question": "부품 색 달라도 괜찮으니까 만들 수 있는 거 뭐 있어?", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build", "tags": ["모드-색상무시", "구어체"], "source": "pm"}
+{"id": "RH-09", "question": "내 컬렉션으로 만들 수 있는 세트 하나 골라서 그 배가 나온 장면도 설명해줘", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build_archive", "tags": ["결합", "지시어"], "source": "pm"}
+{"id": "RH-10", "question": "Suggest something I can build from my parts and explain the ship's backstory", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build_archive", "tags": ["결합", "영어"], "source": "pm"}
+{"id": "RH-11", "question": "만들 수 있는 거 추천해주고, 그거 영화에서 뭐 했는지도", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build_archive", "tags": ["결합", "지시어", "구어체"], "source": "pm"}
+{"id": "RH-12", "question": "75192랑 75375 팔콘 차이 뭐야?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "compare", "tags": ["대조군-비교"], "source": "pm"}

@@ -1,0 +1,40 @@
+{
+ "request": {
+  "lang": "en",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "prop": "info|revisions",
+   "rvprop": "ids|timestamp",
+   "titles": "Lego Star Wars",
+   "redirects": 1
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 7049188,
+     "ns": 0,
+     "title": "Lego Star Wars",
+     "contentmodel": "wikitext",
+     "pagelanguage": "en",
+     "pagelanguagehtmlcode": "en",
+     "pagelanguagedir": "ltr",
+     "touched": "2026-10-19T16:09:31Z",
+     "lastrevid": 1377508651,
+     "length": 98353,
+     "revisions": [
+      {
+       "revid": 1377508651,
+       "parentid": 1376833187,
+       "timestamp": "2026-09-29T19:36:11Z"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

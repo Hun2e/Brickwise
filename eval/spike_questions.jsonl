@@ -1,0 +1,25 @@
+{"id":"fact-01","question":"75192의 부품 수가 궁금해.","expected_route":"fact","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":false}
+{"id":"fact-02","question":"75257은 언제 출시됐어?","expected_route":"fact","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":false}
+{"id":"fact-03","question":"75301에 들어 있는 미니피그는 뭐야?","expected_route":"fact","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":true}
+{"id":"fact-04","question":"75192-1 세트의 출시 연도를 알려 주세요.","expected_route":"fact","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":false}
+{"id":"filter-01","question":"2015년 이후 나온 스타워즈 세트 목록 보여줘.","expected_route":"filter","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":false}
+{"id":"filter-02","question":"500부품 미만인 엑스윙을 찾아 주세요.","expected_route":"filter","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":false}
+{"id":"filter-03","question":"밀레니엄 팔콘 중 1000부품 이상 제품만 찾고 싶어.","expected_route":"filter","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":true}
+{"id":"filter-04","question":"부품 수가 100에서 1500 사이인 세트를 최신순으로 보여줘.","expected_route":"filter","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":false}
+{"id":"set_ops-01","question":"75192와 75257에서 공통으로 쓰는 부품은?","expected_route":"set_ops","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":false}
+{"id":"set_ops-02","question":"75257에는 있고 75301에는 없는 부품 목록을 알려줘.","expected_route":"set_ops","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":true}
+{"id":"set_ops-03","question":"75301과 75192의 겹치는 부품 종류를 비교해줘.","expected_route":"set_ops","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":false}
+{"id":"narrative-01","question":"밀레니엄 팔콘이 스타워즈에서 중요한 이유가 뭐야?","expected_route":"narrative","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":false}
+{"id":"narrative-02","question":"루크의 엑스윙에 얽힌 이야기를 들려줘.","expected_route":"narrative","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":true}
+{"id":"narrative-03","question":"75257의 외형 설계에는 어떤 특징이 있나요?","expected_route":"narrative","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":false}
+{"id":"narrative-04","question":"밀팔이라는 기체의 역사를 설명해 주세요.","expected_route":"narrative","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":false}
+{"id":"compare-01","question":"75192와 75257은 전체적으로 어떻게 달라?","expected_route":"compare","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":false}
+{"id":"compare-02","question":"밀레니엄 팔콘의 75192판과 75257판을 비교해 주세요.","expected_route":"compare","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":true}
+{"id":"compare-03","question":"75301 엑스윙과 75257 밀레니엄 팔콘의 외형 특징을 비교해줘.","expected_route":"compare","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":false}
+{"id":"build-01","question":"내가 가진 부품으로 75301을 만들 수 있을까?","expected_route":"build","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":true}
+{"id":"build-02","question":"내 세트로 75257을 조립하려면 부족한 부품이 뭐야?","expected_route":"build","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":true}
+{"id":"build-03","question":"보유 세트에서 꺼낸 부품으로 만들 수 있는 제품을 추천해줘.","expected_route":"build","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":true}
+{"id":"build-04","question":"세트를 아직 등록하지 않았는데 내 부품으로 75301 조립 가능한지 봐줘.","expected_route":"build","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":false}
+{"id":"build_archive-01","question":"내 부품으로 만들 수 있는 팔콘을 추천하고 그 기체의 역사도 설명해줘.","expected_route":"build_archive","set_name":"Millennium Falcon","set_num":"75257-1","has_collection":true}
+{"id":"build_archive-02","question":"75301 조립에 부족한 부품을 찾고 엑스윙의 배경 이야기도 들려줘.","expected_route":"build_archive","set_name":"Luke Skywalker's X-Wing Fighter","set_num":"75301-1","has_collection":true}
+{"id":"build_archive-03","question":"보유 세트로 만들 수 있는 가장 오래된 제품을 골라 설계 특징까지 알려주세요.","expected_route":"build_archive","set_name":"Millennium Falcon","set_num":"75192-1","has_collection":true}

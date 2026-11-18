@@ -1,0 +1,1051 @@
+{
+  "schema_version": 1,
+  "experiment": "retrieval",
+  "created_at": "2026-10-22T05:56:49.768928+00:00",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": true,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "similarity_fetch_k": 20,
+      "query_mode": "question",
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "similarity",
+      "mmr_fetch_k": 30,
+      "mmr_lambda": 0.5,
+      "mmr_apply_caps": true,
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_keywords": [
+        "star wars",
+        "jedi",
+        "sith",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "skywalker",
+        "death star"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v2",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "narrative_cues": [
+        "특징",
+        "역사",
+        "설명",
+        "어떤",
+        "왜",
+        "배경"
+      ]
+    }
+  },
+  "settings_hash": "b4963f8b9b7dc828832e5050f8a9187add86e47e653f1a197bc995b969081e8e",
+  "snapshot": {
+    "schema_version": 1,
+    "name": "m6-base",
+    "created_at": "2026-10-22T05:02:12.584283+00:00",
+    "settings_hash": "0e890ef923ff3fc17bd85c3fdc7b8acd99965de01b635dca16b8d42f6b027847",
+    "settings": {
+      "ui": {
+        "title": "LEGO Archive & Build Planner",
+        "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+        "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+        "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+      },
+      "server": {
+        "max_question_chars": 4000,
+        "keepalive_sec": 15,
+        "catalog_max_age_sec": 300,
+        "cors_origins": [],
+        "static_dir": "web"
+      },
+      "app": {
+        "name": "BrickArchivePlanner",
+        "version": "0.1",
+        "domain_label": "레고",
+        "risky_domain": false,
+        "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+      },
+      "llm": {
+        "cache_enabled": true,
+        "base_url": "<OpenAI 호환 엔드포인트>",
+        "chat_model": "gpt-5.4-nano",
+        "embedding_model": "text-embedding-3-small",
+        "temperature": 0,
+        "send_temperature": true,
+        "timeout_sec": 60,
+        "max_retries": 1,
+        "structured_method": "json_mode",
+        "spike_questions_path": "eval/spike_questions.jsonl",
+        "spike_logs_dir": "logs"
+      },
+      "paths": {
+        "items": "data/raw/rebrickable",
+        "sqlite": "data/lego.sqlite",
+        "user_sqlite": "data/user.sqlite",
+        "collected_dir": "data/collected",
+        "docs_dir": "data/collected/docs",
+        "collect_sqlite": "data/collected/collect.sqlite",
+        "chroma_dir": "data/chroma",
+        "entity_rules": "config/entity_rules.yaml",
+        "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+        "ko_terms": "config/ko_terms.yaml",
+        "embed_cache": "data/collected/embed_cache.sqlite"
+      },
+      "evaluation": {
+        "snapshot_dir": "data/eval_snapshot",
+        "snapshot_name": "m6-base",
+        "retrieval_file": "eval/retrieval.jsonl",
+        "routing_file": "eval/route_questions.jsonl",
+        "draft_file": "eval/drafts/retrieval_draft.jsonl",
+        "en_terms_cache": "eval/cache/en_terms.jsonl",
+        "results_dir": "eval/results",
+        "draft_count": 60,
+        "korean_fraction": 0.75,
+        "seed": 16,
+        "repetitions": 3,
+        "recall_k": [
+          1,
+          3,
+          5
+        ],
+        "primary_k": 5
+      },
+      "index": {
+        "docs_include_korean": true,
+        "docs_group_policy": "tag",
+        "embed_batch_size": 64,
+        "meta_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "generic_minifig_prefixes": [
+          "Astromech Droid",
+          "Protocol Droid",
+          "Battle Droid",
+          "Clone Trooper",
+          "Stormtrooper",
+          "Droid"
+        ]
+      },
+      "collections": {
+        "items": "set_meta",
+        "docs": "set_docs"
+      },
+      "chunking": {
+        "chunk_size": 1000,
+        "chunk_overlap": 200,
+        "min_chunk_chars": 200,
+        "header": true
+      },
+      "verify": {
+        "enabled": true,
+        "ignore_single_digit": true,
+        "p3_max_bullets": 6,
+        "log_path": "logs/verification.jsonl"
+      },
+      "retrieval": {
+        "top_k": 5,
+        "fetch_multiplier": 4,
+        "max_chunks_per_doc": 2,
+        "max_series_chunks": 2,
+        "max_group_chunks": 2,
+        "max_list_chunks": 2,
+        "history_turns": 4,
+        "max_en_terms": 8,
+        "p3_prompt_version": "p3-v2",
+        "search_type": "similarity",
+        "mmr_fetch_k": 30,
+        "mmr_lambda": 0.5,
+        "condition_candidates": 20
+      },
+      "collection": {
+        "max_queries": 3,
+        "candidates_per_query": 5,
+        "max_docs_per_item": 6,
+        "max_docs_per_question": 2,
+        "question_time_budget_sec": 30,
+        "question_include_korean": true,
+        "p1_prompt_version": "p1-v2.1",
+        "domain_keywords": [
+          "star wars",
+          "jedi",
+          "sith",
+          "clone wars",
+          "galactic empire",
+          "rebel alliance",
+          "lucasfilm",
+          "lego",
+          "skywalker",
+          "death star"
+        ]
+      },
+      "external_api": {
+        "request_interval_sec": 0.5,
+        "max_retries": 3,
+        "timeout_sec": 20,
+        "interval_without_contact_sec": 6.5,
+        "backoff_base_sec": 2.0
+      },
+      "wikipedia": {
+        "api_url": "https://{lang}.wikipedia.org/w/api.php",
+        "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+        "langs": [
+          "en",
+          "ko"
+        ],
+        "drop_sections": {
+          "en": [
+            "See also",
+            "References",
+            "Further reading",
+            "External links",
+            "Notes",
+            "Bibliography",
+            "Citations",
+            "Sources"
+          ],
+          "ko": [
+            "같이 보기",
+            "각주",
+            "외부 링크",
+            "참고 문헌",
+            "참고 자료",
+            "출처",
+            "내용주"
+          ]
+        },
+        "min_section_chars": 40,
+        "seeds": [
+          [
+            "en",
+            "Lego Star Wars"
+          ],
+          [
+            "ko",
+            "레고 스타워즈"
+          ],
+          [
+            "en",
+            "Millennium Falcon"
+          ],
+          [
+            "en",
+            "X-wing fighter"
+          ],
+          [
+            "en",
+            "TIE fighter"
+          ],
+          [
+            "en",
+            "AT-AT"
+          ],
+          [
+            "en",
+            "Star Destroyer"
+          ]
+        ]
+      },
+      "rebrickable": {
+        "base_url": "https://cdn.rebrickable.com/media/downloads/",
+        "csv_dir": "data/raw/rebrickable",
+        "batch_size": 10000
+      },
+      "scope": {
+        "root_theme": "Star Wars",
+        "year_min": 2015,
+        "year_max": 2026,
+        "parts_min": 100,
+        "parts_max": 1500,
+        "compare_keywords": [
+          "Millennium Falcon",
+          "X-wing",
+          "TIE",
+          "AT-AT",
+          "Star Destroyer"
+        ],
+        "compare_parts_min": 100
+      },
+      "planner": {
+        "default_mode": "exact",
+        "recommend_top_n": 10,
+        "recommend_scope": [
+          "core"
+        ]
+      },
+      "compare": {
+        "variant_markers": [
+          "microfighter",
+          "cockpit",
+          "diorama",
+          "mini",
+          "midi",
+          "bag charm",
+          "key chain",
+          "magnet",
+          "bust",
+          "helmet",
+          "polybag",
+          "mech",
+          "battle pack"
+        ],
+        "set_ops_top_n": 15,
+        "table_max_rows": 30
+      },
+      "search": {
+        "default_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "sql_candidate_limit": 300,
+        "review_top_n": 20,
+        "result_limit": 12,
+        "filter_prompt_version": "filter-v2",
+        "review_prompt_version": "review-v2"
+      },
+      "router": {
+        "llm_fallback": true,
+        "retry_backoff_sec": 2,
+        "error_log": "logs/orchestrator.log",
+        "min_confidence": 0.6,
+        "prompt_version": "router-v2",
+        "build_archive_pool": 30,
+        "history_answer_chars": 200,
+        "selection_prompt_version": "selection-v1",
+        "compare_cues": [
+          "연도별",
+          "판본",
+          "달라졌",
+          "변천",
+          "비교",
+          "차이"
+        ],
+        "set_ops_cues": [
+          "공통",
+          "겹치",
+          "같은 부품"
+        ],
+        "narrative_cues": [
+          "특징",
+          "역사",
+          "설명",
+          "어떤",
+          "왜",
+          "배경"
+        ]
+      }
+    },
+    "collections": {
+      "set_docs": {
+        "chunk_count": 3136,
+        "document_count": 124,
+        "chunk_config_hash": [
+          "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09"
+        ],
+        "content_hash": "d8517035a1bc567dfd037d3cd840f006b9e42f1876396ba2ca11a01101e57c98"
+      },
+      "set_meta": {
+        "chunk_count": 378,
+        "document_count": 378,
+        "chunk_config_hash": [],
+        "content_hash": "ff6ac9feef87c8e1270d800afe4d8e40c208738cd1103344832fefd41883da13"
+      }
+    }
+  },
+  "dataset_hash": "ae85d2c5caaf39cbc294a6fabc87f1c7733daa2e5761378e9dd73fa45a2eca51",
+  "en_terms": [
+    {
+      "id": "RV-01",
+      "en_terms": [
+        "UCS",
+        "Ultimate Collector Series",
+        "Senate Commando Troopers",
+        "일반 레고 스타워즈 제품",
+        "차이점",
+        "일반 세트",
+        "디테일",
+        "스케일"
+      ]
+    },
+    {
+      "id": "RV-02",
+      "en_terms": [
+        "LEGO Star Wars 2014 set",
+        "Desert Skiff Escape",
+        "2014 LEGO Star Wars sets"
+      ]
+    },
+    {
+      "id": "RV-03",
+      "en_terms": [
+        "Mandalorian",
+        "만달로리안",
+        "종족",
+        "Din Djarin",
+        "Din Djarin 종족",
+        "Mandalore"
+      ]
+    },
+    {
+      "id": "RV-04",
+      "en_terms": [
+        "A New Hope",
+        "새로운 희망",
+        "Homing Spider Droid",
+        "루크 스카이워커",
+        "레아 공주",
+        "한 솔로"
+      ]
+    },
+    {
+      "id": "RV-05",
+      "en_terms": [
+        "Palpatine",
+        "return",
+        "resurrect",
+        "cloning",
+        "Emperor's Throne Room Diorama",
+        "75352"
+      ]
+    },
+    {
+      "id": "RV-06",
+      "en_terms": [
+        "UCS",
+        "2008년 UCS",
+        "TIE Bomber",
+        "TIE/SA Bomber",
+        "제작 시기"
+      ]
+    },
+    {
+      "id": "RV-07",
+      "en_terms": [
+        "The Empire Strikes Back",
+        "감독",
+        "이르빈 커쉬너",
+        "Luke Skywalker's X-Wing Fighter"
+      ]
+    },
+    {
+      "id": "RV-08",
+      "en_terms": [
+        "Han Solo",
+        "The Force Awakens",
+        "Han Solo's Landspeeder",
+        "깨어난 포스"
+      ]
+    },
+    {
+      "id": "RV-09",
+      "en_terms": [
+        "Clone attack",
+        "Anakin Skywalker",
+        "Padmé Amidala",
+        "Homing Spider Droid",
+        "Battle of Geonosis"
+      ]
+    },
+    {
+      "id": "RV-10",
+      "en_terms": [
+        "루크 스카이워커",
+        "레드 파이브 헬멧",
+        "숨은 이유",
+        "은둔",
+        "타투인",
+        "Tatooine"
+      ]
+    },
+    {
+      "id": "RV-11",
+      "en_terms": [
+        "Palpatine",
+        "prequels Palpatine role",
+        "Chancellor Palpatine"
+      ]
+    },
+    {
+      "id": "RV-12",
+      "en_terms": [
+        "다스 시디어스",
+        "Darth Sidious",
+        "팰퍼틴",
+        "Palpatine",
+        "황제의 등극",
+        "Emperor's Throne Room Diorama",
+        "75352"
+      ]
+    },
+    {
+      "id": "RV-13",
+      "en_terms": [
+        "UCS 2002",
+        "Ultimate Collector Series",
+        "X-wing Starfighter"
+      ]
+    },
+    {
+      "id": "RV-14",
+      "en_terms": [
+        "Han Solo",
+        "Luke Skywalker",
+        "first meeting",
+        "Landspeeder",
+        "Tatooine"
+      ]
+    },
+    {
+      "id": "RV-15",
+      "en_terms": [
+        "퍼스트 오더 타이 파이터",
+        "First Order TIE Fighter",
+        "원래 타이 파이터",
+        "original TIE Fighter",
+        "Imperial TIE Fighter",
+        "First Order"
+      ]
+    },
+    {
+      "id": "RV-16",
+      "en_terms": [
+        "Darth Maul Mech",
+        "다스 몰",
+        "보이지 않는 위험",
+        "보이지 않는 위협",
+        "mech 전투",
+        "Obi-Wan Kenobi",
+        "오비완 케노비"
+      ]
+    },
+    {
+      "id": "RV-17",
+      "en_terms": [
+        "Darth Vader",
+        "New Hope",
+        "Empire pursuit",
+        "R2-D2",
+        "Leia plans",
+        "Ewok"
+      ]
+    },
+    {
+      "id": "RV-18",
+      "en_terms": [
+        "Boba Fett",
+        "보바 펫",
+        "캐릭터",
+        "영문 캐릭터 설명",
+        "Star Wars"
+      ]
+    },
+    {
+      "id": "RV-19",
+      "en_terms": [
+        "Han Solo's Landspeeder",
+        "랜드스피더",
+        "how it flies",
+        "hover mechanism",
+        "repulsorlift",
+        "thrusters",
+        "anti-grav",
+        "stabilizer"
+      ]
+    },
+    {
+      "id": "RV-20",
+      "en_terms": [
+        "Darth Maul",
+        "Clone Wars",
+        "다스 몰",
+        "클론 전쟁",
+        "살아남다",
+        "생존",
+        "생존 스토리",
+        "마울 귀환",
+        "사망 후"
+      ]
+    },
+    {
+      "id": "RV-21",
+      "en_terms": [
+        "제다이",
+        "Jedi Order",
+        "Jedi Knights",
+        "Yoda",
+        "Force users",
+        "The Jedi"
+      ]
+    },
+    {
+      "id": "RV-22",
+      "en_terms": [
+        "팰퍼틴",
+        "외전에서의 생존 설정",
+        "Emperor's Throne Room Diorama"
+      ]
+    },
+    {
+      "id": "RV-23",
+      "en_terms": [
+        "Princess Leia",
+        "Boushh",
+        "Star Wars Legends",
+        "Battle of Endor",
+        "Leia survival",
+        "post-Endor"
+      ]
+    },
+    {
+      "id": "RV-24",
+      "en_terms": [
+        "타투인",
+        "Tatooine",
+        "사막 행성",
+        "Desert planet"
+      ]
+    },
+    {
+      "id": "RV-25",
+      "en_terms": [
+        "Hoth planet battle",
+        "Action Battle Hoth Generator Attack",
+        "Hoth generator attack"
+      ]
+    },
+    {
+      "id": "RV-26",
+      "en_terms": [
+        "저항군",
+        "Resistance",
+        "Resistance Transport Pod",
+        "75176",
+        "스타워즈"
+      ]
+    },
+    {
+      "id": "RV-27",
+      "en_terms": [
+        "Count Dooku",
+        "Jedi Bob's Starfighter",
+        "Jedi Bob",
+        "Dooku Count"
+      ]
+    },
+    {
+      "id": "RV-28",
+      "en_terms": [
+        "LEGO Smart Brick",
+        "Smart Brick",
+        "LEGO Star Wars sets",
+        "Han Solo",
+        "75535"
+      ]
+    },
+    {
+      "id": "RV-29",
+      "en_terms": [
+        "Newmoidian Shuttle",
+        "뉴모이디안 셔틀",
+        "Republic Gunship",
+        "공화국 건십",
+        "Gungan",
+        "Naboo"
+      ]
+    },
+    {
+      "id": "RV-30",
+      "en_terms": [
+        "Imperial TIE Fighter",
+        "Star Wars minifigures",
+        "other LEGO themes",
+        "minifigure crossover",
+        "LEGO themes with Star Wars"
+      ]
+    },
+    {
+      "id": "RV-31",
+      "en_terms": [
+        "Snoke",
+        "Kylo Ren",
+        "Supreme Leader",
+        "First Order",
+        "connection",
+        "backstory"
+      ]
+    },
+    {
+      "id": "RV-32",
+      "en_terms": [
+        "LEGO Star Wars Diorama Collection",
+        "R2-D2",
+        "diorama collection"
+      ]
+    },
+    {
+      "id": "RV-33",
+      "en_terms": [
+        "Princess Leia (Boushh) Helmet",
+        "Princess Leia child",
+        "young Leia",
+        "series show Leia as a child",
+        "Boushh"
+      ]
+    },
+    {
+      "id": "RV-34",
+      "en_terms": [
+        "희귀한 레고 스타워즈 미니피겨",
+        "Hoth Medical Chamber 75203",
+        "Hoth Rebel Medic",
+        "Hoth medical chamber"
+      ]
+    },
+    {
+      "id": "RV-35",
+      "en_terms": [
+        "Rey",
+        "Leia Organa",
+        "Jedi training",
+        "Yoda",
+        "Luke Skywalker",
+        "Star Wars Leia"
+      ]
+    },
+    {
+      "id": "RV-36",
+      "en_terms": [
+        "LEGO Star Wars",
+        "video games",
+        "sold",
+        "sales",
+        "Battle of Felucia Separatist MTT",
+        "Separatist MTT"
+      ]
+    },
+    {
+      "id": "RV-37",
+      "en_terms": [
+        "Wookiee Gunship",
+        "Wookiee culture",
+        "Wookiee customs",
+        "Chewbacca"
+      ]
+    },
+    {
+      "id": "RV-38",
+      "en_terms": [
+        "LEGO Star Wars",
+        "브랜드 출시",
+        "출시 연도",
+        "1999"
+      ]
+    },
+    {
+      "id": "RV-39",
+      "en_terms": [
+        "레고 스타워즈 단편 애니메이션",
+        "TIE Fighter",
+        "언제 나왔어",
+        "공개 시기",
+        "방영"
+      ]
+    },
+    {
+      "id": "RV-40",
+      "en_terms": [
+        "Yavin 4",
+        "surface",
+        "terrain",
+        "appearance",
+        "Luke's Red Five X-wing"
+      ]
+    }
+  ],
+  "collect_fn": null,
+  "llm_calls": 0,
+  "comparison": null,
+  "decision": {
+    "passed": false,
+    "reasons": [
+      "질의 벡터 캐시가 없습니다. 키가 있는 환경에서 --embed-missing으로 준비하세요."
+    ]
+  },
+  "blocked_reason": "질의 벡터 캐시가 없습니다. 키가 있는 환경에서 --embed-missing으로 준비하세요.",
+  "baseline_ranked_equal": null,
+  "parent": "reference",
+  "rows": [],
+  "summary": {}
+}

@@ -1,0 +1,2149 @@
+{
+  "schema_version": 1,
+  "experiment": "mmr-comparison",
+  "created_at": "2026-10-22T05:57:54.589106+00:00",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": true,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "similarity_fetch_k": 20,
+      "query_mode": "expanded",
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "similarity",
+      "mmr_fetch_k": 30,
+      "mmr_lambda": 0.5,
+      "mmr_apply_caps": true,
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_keywords": [
+        "star wars",
+        "jedi",
+        "sith",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "skywalker",
+        "death star"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v2",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "narrative_cues": [
+        "특징",
+        "역사",
+        "설명",
+        "어떤",
+        "왜",
+        "배경"
+      ]
+    }
+  },
+  "settings_hash": "205e955881dcb800b5f31f20a84a2dab32dacb551b988cd7d26e2a1c61d73fbb",
+  "snapshot": {
+    "schema_version": 1,
+    "name": "m6-base",
+    "created_at": "2026-10-22T05:02:12.584283+00:00",
+    "settings_hash": "0e890ef923ff3fc17bd85c3fdc7b8acd99965de01b635dca16b8d42f6b027847",
+    "settings": {
+      "ui": {
+        "title": "LEGO Archive & Build Planner",
+        "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+        "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+        "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+      },
+      "server": {
+        "max_question_chars": 4000,
+        "keepalive_sec": 15,
+        "catalog_max_age_sec": 300,
+        "cors_origins": [],
+        "static_dir": "web"
+      },
+      "app": {
+        "name": "BrickArchivePlanner",
+        "version": "0.1",
+        "domain_label": "레고",
+        "risky_domain": false,
+        "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+      },
+      "llm": {
+        "cache_enabled": true,
+        "base_url": "<OpenAI 호환 엔드포인트>",
+        "chat_model": "gpt-5.4-nano",
+        "embedding_model": "text-embedding-3-small",
+        "temperature": 0,
+        "send_temperature": true,
+        "timeout_sec": 60,
+        "max_retries": 1,
+        "structured_method": "json_mode",
+        "spike_questions_path": "eval/spike_questions.jsonl",
+        "spike_logs_dir": "logs"
+      },
+      "paths": {
+        "items": "data/raw/rebrickable",
+        "sqlite": "data/lego.sqlite",
+        "user_sqlite": "data/user.sqlite",
+        "collected_dir": "data/collected",
+        "docs_dir": "data/collected/docs",
+        "collect_sqlite": "data/collected/collect.sqlite",
+        "chroma_dir": "data/chroma",
+        "entity_rules": "config/entity_rules.yaml",
+        "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+        "ko_terms": "config/ko_terms.yaml",
+        "embed_cache": "data/collected/embed_cache.sqlite"
+      },
+      "evaluation": {
+        "snapshot_dir": "data/eval_snapshot",
+        "snapshot_name": "m6-base",
+        "retrieval_file": "eval/retrieval.jsonl",
+        "routing_file": "eval/route_questions.jsonl",
+        "draft_file": "eval/drafts/retrieval_draft.jsonl",
+        "en_terms_cache": "eval/cache/en_terms.jsonl",
+        "results_dir": "eval/results",
+        "draft_count": 60,
+        "korean_fraction": 0.75,
+        "seed": 16,
+        "repetitions": 3,
+        "recall_k": [
+          1,
+          3,
+          5
+        ],
+        "primary_k": 5
+      },
+      "index": {
+        "docs_include_korean": true,
+        "docs_group_policy": "tag",
+        "embed_batch_size": 64,
+        "meta_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "generic_minifig_prefixes": [
+          "Astromech Droid",
+          "Protocol Droid",
+          "Battle Droid",
+          "Clone Trooper",
+          "Stormtrooper",
+          "Droid"
+        ]
+      },
+      "collections": {
+        "items": "set_meta",
+        "docs": "set_docs"
+      },
+      "chunking": {
+        "chunk_size": 1000,
+        "chunk_overlap": 200,
+        "min_chunk_chars": 200,
+        "header": true
+      },
+      "verify": {
+        "enabled": true,
+        "ignore_single_digit": true,
+        "p3_max_bullets": 6,
+        "log_path": "logs/verification.jsonl"
+      },
+      "retrieval": {
+        "top_k": 5,
+        "fetch_multiplier": 4,
+        "max_chunks_per_doc": 2,
+        "max_series_chunks": 2,
+        "max_group_chunks": 2,
+        "max_list_chunks": 2,
+        "history_turns": 4,
+        "max_en_terms": 8,
+        "p3_prompt_version": "p3-v2",
+        "search_type": "similarity",
+        "mmr_fetch_k": 30,
+        "mmr_lambda": 0.5,
+        "condition_candidates": 20
+      },
+      "collection": {
+        "max_queries": 3,
+        "candidates_per_query": 5,
+        "max_docs_per_item": 6,
+        "max_docs_per_question": 2,
+        "question_time_budget_sec": 30,
+        "question_include_korean": true,
+        "p1_prompt_version": "p1-v2.1",
+        "domain_keywords": [
+          "star wars",
+          "jedi",
+          "sith",
+          "clone wars",
+          "galactic empire",
+          "rebel alliance",
+          "lucasfilm",
+          "lego",
+          "skywalker",
+          "death star"
+        ]
+      },
+      "external_api": {
+        "request_interval_sec": 0.5,
+        "max_retries": 3,
+        "timeout_sec": 20,
+        "interval_without_contact_sec": 6.5,
+        "backoff_base_sec": 2.0
+      },
+      "wikipedia": {
+        "api_url": "https://{lang}.wikipedia.org/w/api.php",
+        "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+        "langs": [
+          "en",
+          "ko"
+        ],
+        "drop_sections": {
+          "en": [
+            "See also",
+            "References",
+            "Further reading",
+            "External links",
+            "Notes",
+            "Bibliography",
+            "Citations",
+            "Sources"
+          ],
+          "ko": [
+            "같이 보기",
+            "각주",
+            "외부 링크",
+            "참고 문헌",
+            "참고 자료",
+            "출처",
+            "내용주"
+          ]
+        },
+        "min_section_chars": 40,
+        "seeds": [
+          [
+            "en",
+            "Lego Star Wars"
+          ],
+          [
+            "ko",
+            "레고 스타워즈"
+          ],
+          [
+            "en",
+            "Millennium Falcon"
+          ],
+          [
+            "en",
+            "X-wing fighter"
+          ],
+          [
+            "en",
+            "TIE fighter"
+          ],
+          [
+            "en",
+            "AT-AT"
+          ],
+          [
+            "en",
+            "Star Destroyer"
+          ]
+        ]
+      },
+      "rebrickable": {
+        "base_url": "https://cdn.rebrickable.com/media/downloads/",
+        "csv_dir": "data/raw/rebrickable",
+        "batch_size": 10000
+      },
+      "scope": {
+        "root_theme": "Star Wars",
+        "year_min": 2015,
+        "year_max": 2026,
+        "parts_min": 100,
+        "parts_max": 1500,
+        "compare_keywords": [
+          "Millennium Falcon",
+          "X-wing",
+          "TIE",
+          "AT-AT",
+          "Star Destroyer"
+        ],
+        "compare_parts_min": 100
+      },
+      "planner": {
+        "default_mode": "exact",
+        "recommend_top_n": 10,
+        "recommend_scope": [
+          "core"
+        ]
+      },
+      "compare": {
+        "variant_markers": [
+          "microfighter",
+          "cockpit",
+          "diorama",
+          "mini",
+          "midi",
+          "bag charm",
+          "key chain",
+          "magnet",
+          "bust",
+          "helmet",
+          "polybag",
+          "mech",
+          "battle pack"
+        ],
+        "set_ops_top_n": 15,
+        "table_max_rows": 30
+      },
+      "search": {
+        "default_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "sql_candidate_limit": 300,
+        "review_top_n": 20,
+        "result_limit": 12,
+        "filter_prompt_version": "filter-v2",
+        "review_prompt_version": "review-v2"
+      },
+      "router": {
+        "llm_fallback": true,
+        "retry_backoff_sec": 2,
+        "error_log": "logs/orchestrator.log",
+        "min_confidence": 0.6,
+        "prompt_version": "router-v2",
+        "build_archive_pool": 30,
+        "history_answer_chars": 200,
+        "selection_prompt_version": "selection-v1",
+        "compare_cues": [
+          "연도별",
+          "판본",
+          "달라졌",
+          "변천",
+          "비교",
+          "차이"
+        ],
+        "set_ops_cues": [
+          "공통",
+          "겹치",
+          "같은 부품"
+        ],
+        "narrative_cues": [
+          "특징",
+          "역사",
+          "설명",
+          "어떤",
+          "왜",
+          "배경"
+        ]
+      }
+    },
+    "collections": {
+      "set_docs": {
+        "chunk_count": 3136,
+        "document_count": 124,
+        "chunk_config_hash": [
+          "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09"
+        ],
+        "content_hash": "d8517035a1bc567dfd037d3cd840f006b9e42f1876396ba2ca11a01101e57c98"
+      },
+      "set_meta": {
+        "chunk_count": 378,
+        "document_count": 378,
+        "chunk_config_hash": [],
+        "content_hash": "ff6ac9feef87c8e1270d800afe4d8e40c208738cd1103344832fefd41883da13"
+      }
+    }
+  },
+  "dataset_hash": "53566dae41968c1c88e87509eea0e6de73b598cb20313547d561d1ae935d0221",
+  "en_terms": [
+    {
+      "id": "RV-18",
+      "en_terms": [
+        "Boba Fett",
+        "보바 펫",
+        "캐릭터",
+        "영문 캐릭터 설명",
+        "Star Wars"
+      ]
+    },
+    {
+      "id": "RV-01",
+      "en_terms": [
+        "UCS",
+        "Ultimate Collector Series",
+        "Senate Commando Troopers",
+        "일반 레고 스타워즈 제품",
+        "차이점",
+        "일반 세트",
+        "디테일",
+        "스케일"
+      ]
+    },
+    {
+      "id": "RV-05",
+      "en_terms": [
+        "Palpatine",
+        "return",
+        "resurrect",
+        "cloning",
+        "Emperor's Throne Room Diorama",
+        "75352"
+      ]
+    },
+    {
+      "id": "RV-21",
+      "en_terms": [
+        "제다이",
+        "Jedi Order",
+        "Jedi Knights",
+        "Yoda",
+        "Force users",
+        "The Jedi"
+      ]
+    },
+    {
+      "id": "RV-34",
+      "en_terms": [
+        "희귀한 레고 스타워즈 미니피겨",
+        "Hoth Medical Chamber 75203",
+        "Hoth Rebel Medic",
+        "Hoth medical chamber"
+      ]
+    }
+  ],
+  "compared_settings": {
+    "similarity": {
+      "ui": {
+        "title": "LEGO Archive & Build Planner",
+        "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+        "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+        "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+      },
+      "server": {
+        "max_question_chars": 4000,
+        "keepalive_sec": 15,
+        "catalog_max_age_sec": 300,
+        "cors_origins": [],
+        "static_dir": "web"
+      },
+      "app": {
+        "name": "BrickArchivePlanner",
+        "version": "0.1",
+        "domain_label": "레고",
+        "risky_domain": false,
+        "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+      },
+      "llm": {
+        "cache_enabled": true,
+        "base_url": "<OpenAI 호환 엔드포인트>",
+        "chat_model": "gpt-5.4-nano",
+        "embedding_model": "text-embedding-3-small",
+        "temperature": 0,
+        "send_temperature": true,
+        "timeout_sec": 60,
+        "max_retries": 1,
+        "structured_method": "json_mode",
+        "spike_questions_path": "eval/spike_questions.jsonl",
+        "spike_logs_dir": "logs"
+      },
+      "paths": {
+        "items": "data/raw/rebrickable",
+        "sqlite": "data/lego.sqlite",
+        "user_sqlite": "data/user.sqlite",
+        "collected_dir": "data/collected",
+        "docs_dir": "data/collected/docs",
+        "collect_sqlite": "data/collected/collect.sqlite",
+        "chroma_dir": "data/chroma",
+        "entity_rules": "config/entity_rules.yaml",
+        "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+        "ko_terms": "config/ko_terms.yaml",
+        "embed_cache": "data/collected/embed_cache.sqlite"
+      },
+      "evaluation": {
+        "snapshot_dir": "data/eval_snapshot",
+        "snapshot_name": "m6-base",
+        "retrieval_file": "eval/retrieval.jsonl",
+        "routing_file": "eval/routing.jsonl",
+        "draft_file": "eval/drafts/retrieval_draft.jsonl",
+        "en_terms_cache": "eval/cache/en_terms.jsonl",
+        "results_dir": "eval/results",
+        "draft_count": 60,
+        "korean_fraction": 0.75,
+        "seed": 16,
+        "repetitions": 3,
+        "latency_collection": [
+          [
+            "75301-1",
+            1
+          ],
+          [
+            "75300-1",
+            1
+          ],
+          [
+            "75257-1",
+            1
+          ]
+        ],
+        "recall_k": [
+          1,
+          3,
+          5
+        ],
+        "primary_k": 5
+      },
+      "index": {
+        "docs_include_korean": true,
+        "docs_group_policy": "tag",
+        "embed_batch_size": 64,
+        "meta_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "generic_minifig_prefixes": [
+          "Astromech Droid",
+          "Protocol Droid",
+          "Battle Droid",
+          "Clone Trooper",
+          "Stormtrooper",
+          "Droid"
+        ]
+      },
+      "collections": {
+        "items": "set_meta",
+        "docs": "set_docs"
+      },
+      "chunking": {
+        "chunk_size": 1000,
+        "chunk_overlap": 200,
+        "min_chunk_chars": 200,
+        "header": true
+      },
+      "verify": {
+        "enabled": true,
+        "ignore_single_digit": true,
+        "p3_max_bullets": 6,
+        "log_path": "logs/verification.jsonl"
+      },
+      "retrieval": {
+        "top_k": 5,
+        "fetch_multiplier": 4,
+        "similarity_fetch_k": 20,
+        "query_mode": "expanded",
+        "max_chunks_per_doc": 2,
+        "max_series_chunks": 2,
+        "max_group_chunks": 2,
+        "max_list_chunks": 2,
+        "history_turns": 4,
+        "max_en_terms": 8,
+        "p3_prompt_version": "p3-v2",
+        "search_type": "similarity",
+        "mmr_fetch_k": 30,
+        "mmr_lambda": 0.5,
+        "mmr_apply_caps": true,
+        "condition_candidates": 20
+      },
+      "collection": {
+        "max_queries": 3,
+        "candidates_per_query": 5,
+        "max_docs_per_item": 6,
+        "max_docs_per_question": 2,
+        "question_time_budget_sec": 30,
+        "question_include_korean": true,
+        "p1_prompt_version": "p1-v2.1",
+        "domain_keywords": [
+          "star wars",
+          "jedi",
+          "sith",
+          "clone wars",
+          "galactic empire",
+          "rebel alliance",
+          "lucasfilm",
+          "lego",
+          "skywalker",
+          "death star"
+        ]
+      },
+      "external_api": {
+        "request_interval_sec": 0.5,
+        "max_retries": 3,
+        "timeout_sec": 20,
+        "interval_without_contact_sec": 6.5,
+        "backoff_base_sec": 2.0
+      },
+      "wikipedia": {
+        "api_url": "https://{lang}.wikipedia.org/w/api.php",
+        "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+        "langs": [
+          "en",
+          "ko"
+        ],
+        "drop_sections": {
+          "en": [
+            "See also",
+            "References",
+            "Further reading",
+            "External links",
+            "Notes",
+            "Bibliography",
+            "Citations",
+            "Sources"
+          ],
+          "ko": [
+            "같이 보기",
+            "각주",
+            "외부 링크",
+            "참고 문헌",
+            "참고 자료",
+            "출처",
+            "내용주"
+          ]
+        },
+        "min_section_chars": 40,
+        "seeds": [
+          [
+            "en",
+            "Lego Star Wars"
+          ],
+          [
+            "ko",
+            "레고 스타워즈"
+          ],
+          [
+            "en",
+            "Millennium Falcon"
+          ],
+          [
+            "en",
+            "X-wing fighter"
+          ],
+          [
+            "en",
+            "TIE fighter"
+          ],
+          [
+            "en",
+            "AT-AT"
+          ],
+          [
+            "en",
+            "Star Destroyer"
+          ]
+        ]
+      },
+      "rebrickable": {
+        "base_url": "https://cdn.rebrickable.com/media/downloads/",
+        "csv_dir": "data/raw/rebrickable",
+        "batch_size": 10000
+      },
+      "scope": {
+        "root_theme": "Star Wars",
+        "year_min": 2015,
+        "year_max": 2026,
+        "parts_min": 100,
+        "parts_max": 1500,
+        "compare_keywords": [
+          "Millennium Falcon",
+          "X-wing",
+          "TIE",
+          "AT-AT",
+          "Star Destroyer"
+        ],
+        "compare_parts_min": 100
+      },
+      "planner": {
+        "default_mode": "exact",
+        "recommend_top_n": 10,
+        "recommend_scope": [
+          "core"
+        ]
+      },
+      "compare": {
+        "variant_markers": [
+          "microfighter",
+          "cockpit",
+          "diorama",
+          "mini",
+          "midi",
+          "bag charm",
+          "key chain",
+          "magnet",
+          "bust",
+          "helmet",
+          "polybag",
+          "mech",
+          "battle pack"
+        ],
+        "set_ops_top_n": 15,
+        "table_max_rows": 30
+      },
+      "search": {
+        "default_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "sql_candidate_limit": 300,
+        "review_top_n": 20,
+        "result_limit": 12,
+        "filter_prompt_version": "filter-v2",
+        "review_prompt_version": "review-v2"
+      },
+      "router": {
+        "llm_fallback": true,
+        "retry_backoff_sec": 2,
+        "error_log": "logs/orchestrator.log",
+        "min_confidence": 0.6,
+        "prompt_version": "router-v2",
+        "build_archive_pool": 30,
+        "history_answer_chars": 200,
+        "selection_prompt_version": "selection-v1",
+        "compare_cues": [
+          "연도별",
+          "판본",
+          "달라졌",
+          "변천",
+          "비교",
+          "차이"
+        ],
+        "set_ops_cues": [
+          "공통",
+          "겹치",
+          "같은 부품"
+        ],
+        "narrative_cues": [
+          "특징",
+          "역사",
+          "설명",
+          "어떤",
+          "왜",
+          "배경"
+        ]
+      }
+    },
+    "mmr": {
+      "ui": {
+        "title": "LEGO Archive & Build Planner",
+        "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+        "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+        "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+      },
+      "server": {
+        "max_question_chars": 4000,
+        "keepalive_sec": 15,
+        "catalog_max_age_sec": 300,
+        "cors_origins": [],
+        "static_dir": "web"
+      },
+      "app": {
+        "name": "BrickArchivePlanner",
+        "version": "0.1",
+        "domain_label": "레고",
+        "risky_domain": false,
+        "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+      },
+      "llm": {
+        "cache_enabled": true,
+        "base_url": "<OpenAI 호환 엔드포인트>",
+        "chat_model": "gpt-5.4-nano",
+        "embedding_model": "text-embedding-3-small",
+        "temperature": 0,
+        "send_temperature": true,
+        "timeout_sec": 60,
+        "max_retries": 1,
+        "structured_method": "json_mode",
+        "spike_questions_path": "eval/spike_questions.jsonl",
+        "spike_logs_dir": "logs"
+      },
+      "paths": {
+        "items": "data/raw/rebrickable",
+        "sqlite": "data/lego.sqlite",
+        "user_sqlite": "data/user.sqlite",
+        "collected_dir": "data/collected",
+        "docs_dir": "data/collected/docs",
+        "collect_sqlite": "data/collected/collect.sqlite",
+        "chroma_dir": "data/chroma",
+        "entity_rules": "config/entity_rules.yaml",
+        "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+        "ko_terms": "config/ko_terms.yaml",
+        "embed_cache": "data/collected/embed_cache.sqlite"
+      },
+      "evaluation": {
+        "snapshot_dir": "data/eval_snapshot",
+        "snapshot_name": "m6-base",
+        "retrieval_file": "eval/retrieval.jsonl",
+        "routing_file": "eval/routing.jsonl",
+        "draft_file": "eval/drafts/retrieval_draft.jsonl",
+        "en_terms_cache": "eval/cache/en_terms.jsonl",
+        "results_dir": "eval/results",
+        "draft_count": 60,
+        "korean_fraction": 0.75,
+        "seed": 16,
+        "repetitions": 3,
+        "latency_collection": [
+          [
+            "75301-1",
+            1
+          ],
+          [
+            "75300-1",
+            1
+          ],
+          [
+            "75257-1",
+            1
+          ]
+        ],
+        "recall_k": [
+          1,
+          3,
+          5
+        ],
+        "primary_k": 5
+      },
+      "index": {
+        "docs_include_korean": true,
+        "docs_group_policy": "tag",
+        "embed_batch_size": 64,
+        "meta_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "generic_minifig_prefixes": [
+          "Astromech Droid",
+          "Protocol Droid",
+          "Battle Droid",
+          "Clone Trooper",
+          "Stormtrooper",
+          "Droid"
+        ]
+      },
+      "collections": {
+        "items": "set_meta",
+        "docs": "set_docs"
+      },
+      "chunking": {
+        "chunk_size": 1000,
+        "chunk_overlap": 200,
+        "min_chunk_chars": 200,
+        "header": true
+      },
+      "verify": {
+        "enabled": true,
+        "ignore_single_digit": true,
+        "p3_max_bullets": 6,
+        "log_path": "logs/verification.jsonl"
+      },
+      "retrieval": {
+        "top_k": 5,
+        "fetch_multiplier": 4,
+        "similarity_fetch_k": 20,
+        "query_mode": "expanded",
+        "max_chunks_per_doc": 2,
+        "max_series_chunks": 2,
+        "max_group_chunks": 2,
+        "max_list_chunks": 2,
+        "history_turns": 4,
+        "max_en_terms": 8,
+        "p3_prompt_version": "p3-v2",
+        "search_type": "mmr",
+        "mmr_fetch_k": 30,
+        "mmr_lambda": 0.5,
+        "mmr_apply_caps": true,
+        "condition_candidates": 20
+      },
+      "collection": {
+        "max_queries": 3,
+        "candidates_per_query": 5,
+        "max_docs_per_item": 6,
+        "max_docs_per_question": 2,
+        "question_time_budget_sec": 30,
+        "question_include_korean": true,
+        "p1_prompt_version": "p1-v2.1",
+        "domain_keywords": [
+          "star wars",
+          "jedi",
+          "sith",
+          "clone wars",
+          "galactic empire",
+          "rebel alliance",
+          "lucasfilm",
+          "lego",
+          "skywalker",
+          "death star"
+        ]
+      },
+      "external_api": {
+        "request_interval_sec": 0.5,
+        "max_retries": 3,
+        "timeout_sec": 20,
+        "interval_without_contact_sec": 6.5,
+        "backoff_base_sec": 2.0
+      },
+      "wikipedia": {
+        "api_url": "https://{lang}.wikipedia.org/w/api.php",
+        "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+        "langs": [
+          "en",
+          "ko"
+        ],
+        "drop_sections": {
+          "en": [
+            "See also",
+            "References",
+            "Further reading",
+            "External links",
+            "Notes",
+            "Bibliography",
+            "Citations",
+            "Sources"
+          ],
+          "ko": [
+            "같이 보기",
+            "각주",
+            "외부 링크",
+            "참고 문헌",
+            "참고 자료",
+            "출처",
+            "내용주"
+          ]
+        },
+        "min_section_chars": 40,
+        "seeds": [
+          [
+            "en",
+            "Lego Star Wars"
+          ],
+          [
+            "ko",
+            "레고 스타워즈"
+          ],
+          [
+            "en",
+            "Millennium Falcon"
+          ],
+          [
+            "en",
+            "X-wing fighter"
+          ],
+          [
+            "en",
+            "TIE fighter"
+          ],
+          [
+            "en",
+            "AT-AT"
+          ],
+          [
+            "en",
+            "Star Destroyer"
+          ]
+        ]
+      },
+      "rebrickable": {
+        "base_url": "https://cdn.rebrickable.com/media/downloads/",
+        "csv_dir": "data/raw/rebrickable",
+        "batch_size": 10000
+      },
+      "scope": {
+        "root_theme": "Star Wars",
+        "year_min": 2015,
+        "year_max": 2026,
+        "parts_min": 100,
+        "parts_max": 1500,
+        "compare_keywords": [
+          "Millennium Falcon",
+          "X-wing",
+          "TIE",
+          "AT-AT",
+          "Star Destroyer"
+        ],
+        "compare_parts_min": 100
+      },
+      "planner": {
+        "default_mode": "exact",
+        "recommend_top_n": 10,
+        "recommend_scope": [
+          "core"
+        ]
+      },
+      "compare": {
+        "variant_markers": [
+          "microfighter",
+          "cockpit",
+          "diorama",
+          "mini",
+          "midi",
+          "bag charm",
+          "key chain",
+          "magnet",
+          "bust",
+          "helmet",
+          "polybag",
+          "mech",
+          "battle pack"
+        ],
+        "set_ops_top_n": 15,
+        "table_max_rows": 30
+      },
+      "search": {
+        "default_scopes": [
+          "core",
+          "compare_only"
+        ],
+        "sql_candidate_limit": 300,
+        "review_top_n": 20,
+        "result_limit": 12,
+        "filter_prompt_version": "filter-v2",
+        "review_prompt_version": "review-v2"
+      },
+      "router": {
+        "llm_fallback": true,
+        "retry_backoff_sec": 2,
+        "error_log": "logs/orchestrator.log",
+        "min_confidence": 0.6,
+        "prompt_version": "router-v2",
+        "build_archive_pool": 30,
+        "history_answer_chars": 200,
+        "selection_prompt_version": "selection-v1",
+        "compare_cues": [
+          "연도별",
+          "판본",
+          "달라졌",
+          "변천",
+          "비교",
+          "차이"
+        ],
+        "set_ops_cues": [
+          "공통",
+          "겹치",
+          "같은 부품"
+        ],
+        "narrative_cues": [
+          "특징",
+          "역사",
+          "설명",
+          "어떤",
+          "왜",
+          "배경"
+        ]
+      }
+    }
+  },
+  "llm_calls": 0,
+  "rows": [
+    {
+      "id": "RV-18",
+      "question": "보바 펫은 어떤 캐릭터야?",
+      "set_num": "75312-1",
+      "similarity": [
+        [
+          {
+            "section_path": "",
+            "chunk_config": "1000/200/200",
+            "entity_kind": "character",
+            "sets": [
+              "75277-1",
+              "75312-1",
+              "75326-1",
+              "75369-1",
+              "75533-1"
+            ],
+            "title": "Boba Fett",
+            "url": "https://en.wikipedia.org/wiki/Boba_Fett",
+            "collected_at": "2026-10-21T07:40:28.674287+00:00",
+            "revid": 1374899750,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "entity": "Boba Fett",
+            "source_type": "wikipedia",
+            "license": "CC BY-SA 4.0",
+            "doc_id": "wp-en:50786",
+            "scope": "entity",
+            "attribution": "Wikipedia contributors, Boba Fett, https://en.wikipedia.org/wiki/Boba_Fett",
+            "lang": "en",
+            "seq": 0,
+            "chunk_id": "entity:wp-en:50786:0000"
+          },
+          0.7862430810928345
+        ],
+        [
+          {
+            "source_type": "wikipedia",
+            "entity_kind": "character",
+            "collected_at": "2026-10-21T07:40:28.674287+00:00",
+            "doc_id": "wp-en:50786",
+            "title": "Boba Fett",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "lang": "en",
+            "entity": "Boba Fett",
+            "section_path": "",
+            "attribution": "Wikipedia contributors, Boba Fett, https://en.wikipedia.org/wiki/Boba_Fett",
+            "revid": 1374899750,
+            "chunk_config": "1000/200/200",
+            "license": "CC BY-SA 4.0",
+            "url": "https://en.wikipedia.org/wiki/Boba_Fett",
+            "seq": 2,
+            "sets": [
+              "75277-1",
+              "75312-1",
+              "75326-1",
+              "75369-1",
+              "75533-1"
+            ],
+            "scope": "entity",
+            "chunk_id": "entity:wp-en:50786:0002"
+          },
+          0.8519700765609741
+        ]
+      ],
+      "mmr": [
+        [
+          {
+            "attribution": "Wikipedia contributors, Boba Fett, https://en.wikipedia.org/wiki/Boba_Fett",
+            "lang": "en",
+            "scope": "entity",
+            "chunk_config": "1000/200/200",
+            "revid": 1374899750,
+            "url": "https://en.wikipedia.org/wiki/Boba_Fett",
+            "title": "Boba Fett",
+            "license": "CC BY-SA 4.0",
+            "doc_id": "wp-en:50786",
+            "entity": "Boba Fett",
+            "section_path": "",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "entity_kind": "character",
+            "collected_at": "2026-10-21T07:40:28.674287+00:00",
+            "source_type": "wikipedia",
+            "sets": [
+              "75277-1",
+              "75312-1",
+              "75326-1",
+              "75369-1",
+              "75533-1"
+            ],
+            "seq": 0,
+            "chunk_id": "entity:wp-en:50786:0000"
+          },
+          0.7862428426742554
+        ],
+        [
+          {
+            "source_type": "wikipedia",
+            "entity": "Boba Fett",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "seq": 29,
+            "sets": [
+              "75277-1",
+              "75312-1",
+              "75326-1",
+              "75369-1",
+              "75533-1"
+            ],
+            "scope": "entity",
+            "url": "https://en.wikipedia.org/wiki/Boba_Fett",
+            "lang": "en",
+            "collected_at": "2026-10-21T07:40:28.674287+00:00",
+            "license": "CC BY-SA 4.0",
+            "revid": 1374899750,
+            "entity_kind": "character",
+            "chunk_config": "1000/200/200",
+            "title": "Boba Fett",
+            "doc_id": "wp-en:50786",
+            "section_path": "Appearances › The Mandalorian",
+            "attribution": "Wikipedia contributors, Boba Fett, https://en.wikipedia.org/wiki/Boba_Fett",
+            "chunk_id": "entity:wp-en:50786:0029"
+          },
+          0.8969666957855225
+        ]
+      ],
+      "common_chunks": 1,
+      "same_ranking": false
+    },
+    {
+      "id": "RV-01",
+      "question": "UCS 시리즈는 일반 레고 스타워즈 제품이랑 뭐가 달라?",
+      "set_num": "75088-1",
+      "similarity": [
+        [
+          {
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "doc_id": "wp-en:7049188",
+            "scope": "series",
+            "collected_at": "2026-10-21T05:17:04.009323+00:00",
+            "section_path": "Construction sets › Minifigures › Ultimate Collector Series (UCS) › List of Ultimate Collectors Series sets",
+            "url": "https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "entity": "",
+            "chunk_config": "1000/200/200",
+            "license": "CC BY-SA 4.0",
+            "attribution": "Wikipedia contributors, Lego Star Wars, https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "source_type": "wikipedia",
+            "title": "Lego Star Wars",
+            "lang": "en",
+            "seq": 10,
+            "entity_kind": "series",
+            "revid": 1377508651,
+            "chunk_id": "series:wp-en:7049188:0010"
+          },
+          0.942582905292511
+        ],
+        [
+          {
+            "scope": "series",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "title": "Lego Star Wars",
+            "entity": "",
+            "attribution": "Wikipedia contributors, Lego Star Wars, https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "doc_id": "wp-en:7049188",
+            "section_path": "Construction sets › Minifigures › Ultimate Collector Series (UCS)",
+            "chunk_config": "1000/200/200",
+            "source_type": "wikipedia",
+            "url": "https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "lang": "en",
+            "entity_kind": "series",
+            "seq": 8,
+            "license": "CC BY-SA 4.0",
+            "revid": 1377508651,
+            "collected_at": "2026-10-21T05:17:04.009323+00:00",
+            "chunk_id": "series:wp-en:7049188:0008"
+          },
+          0.9548072814941406
+        ]
+      ],
+      "mmr": [
+        [
+          {
+            "chunk_config": "1000/200/200",
+            "source_type": "wikipedia",
+            "scope": "series",
+            "seq": 10,
+            "entity_kind": "series",
+            "section_path": "Construction sets › Minifigures › Ultimate Collector Series (UCS) › List of Ultimate Collectors Series sets",
+            "attribution": "Wikipedia contributors, Lego Star Wars, https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "entity": "",
+            "collected_at": "2026-10-21T05:17:04.009323+00:00",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "title": "Lego Star Wars",
+            "lang": "en",
+            "url": "https://en.wikipedia.org/wiki/Lego_Star_Wars",
+            "doc_id": "wp-en:7049188",
+            "license": "CC BY-SA 4.0",
+            "revid": 1377508651,
+            "chunk_id": "series:wp-en:7049188:0010"
+          },
+          0.9425824880599976
+        ],
+        [
+          {
+            "section_path": "얼티밋 컬렉터 시리즈",
+            "lang": "ko",
+            "source_type": "wikipedia",
+            "attribution": "Wikipedia contributors, 레고 스타워즈, https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "license": "CC BY-SA 4.0",
+            "doc_id": "wp-ko:702296",
+            "revid": 41491095,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "title": "레고 스타워즈",
+            "scope": "series",
+            "entity": "",
+            "seq": 0,
+            "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "entity_kind": "series",
+            "chunk_config": "1000/200/200",
+            "collected_at": "2026-10-21T05:17:05.516328+00:00",
+            "chunk_id": "series:wp-ko:702296:0000"
+          },
+          0.9876344203948975
+        ]
+      ],
+      "common_chunks": 1,
+      "same_ranking": false
+    },
+    {
+      "id": "RV-05",
+      "question": "팰퍼틴은 어떻게 다시 살아 돌아온 거야?",
+      "set_num": "75352-1",
+      "similarity": [
+        [
+          {
+            "section_path": "Star Wars Legends › Books and comics",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "license": "CC BY-SA 4.0",
+            "source_type": "wikipedia",
+            "lang": "en",
+            "title": "Palpatine",
+            "url": "https://en.wikipedia.org/wiki/Palpatine",
+            "seq": 57,
+            "attribution": "Wikipedia contributors, Palpatine, https://en.wikipedia.org/wiki/Palpatine",
+            "collected_at": "2026-10-21T07:41:00.427354+00:00",
+            "revid": 1377079402,
+            "scope": "entity",
+            "sets": [
+              "75352-1"
+            ],
+            "doc_id": "wp-en:18426653",
+            "entity_kind": "character",
+            "chunk_config": "1000/200/200",
+            "entity": "Palpatine",
+            "chunk_id": "entity:wp-en:18426653:0057"
+          },
+          0.8483541011810303
+        ],
+        [
+          {
+            "license": "CC BY-SA 4.0",
+            "seq": 59,
+            "scope": "entity",
+            "lang": "en",
+            "revid": 1377079402,
+            "section_path": "Star Wars Legends › Books and comics",
+            "url": "https://en.wikipedia.org/wiki/Palpatine",
+            "attribution": "Wikipedia contributors, Palpatine, https://en.wikipedia.org/wiki/Palpatine",
+            "chunk_config": "1000/200/200",
+            "doc_id": "wp-en:18426653",
+            "collected_at": "2026-10-21T07:41:00.427354+00:00",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "source_type": "wikipedia",
+            "entity_kind": "character",
+            "entity": "Palpatine",
+            "sets": [
+              "75352-1"
+            ],
+            "title": "Palpatine",
+            "chunk_id": "entity:wp-en:18426653:0059"
+          },
+          0.8642157912254333
+        ]
+      ],
+      "mmr": [
+        [
+          {
+            "chunk_config": "1000/200/200",
+            "title": "Palpatine",
+            "source_type": "wikipedia",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "section_path": "Star Wars Legends › Books and comics",
+            "attribution": "Wikipedia contributors, Palpatine, https://en.wikipedia.org/wiki/Palpatine",
+            "collected_at": "2026-10-21T07:41:00.427354+00:00",
+            "doc_id": "wp-en:18426653",
+            "entity": "Palpatine",
+            "scope": "entity",
+            "seq": 57,
+            "revid": 1377079402,
+            "sets": [
+              "75352-1"
+            ],
+            "entity_kind": "character",
+            "url": "https://en.wikipedia.org/wiki/Palpatine",
+            "license": "CC BY-SA 4.0",
+            "lang": "en",
+            "chunk_id": "entity:wp-en:18426653:0057"
+          },
+          0.8483535051345825
+        ],
+        [
+          {
+            "attribution": "Wikipedia contributors, Palpatine, https://en.wikipedia.org/wiki/Palpatine",
+            "entity": "Palpatine",
+            "seq": 40,
+            "doc_id": "wp-en:18426653",
+            "scope": "entity",
+            "title": "Palpatine",
+            "entity_kind": "character",
+            "revid": 1377079402,
+            "collected_at": "2026-10-21T07:41:00.427354+00:00",
+            "source_type": "wikipedia",
+            "section_path": "Reception › Rebels",
+            "url": "https://en.wikipedia.org/wiki/Palpatine",
+            "chunk_config": "1000/200/200",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "lang": "en",
+            "sets": [
+              "75352-1"
+            ],
+            "license": "CC BY-SA 4.0",
+            "chunk_id": "entity:wp-en:18426653:0040"
+          },
+          0.8949808478355408
+        ]
+      ],
+      "common_chunks": 1,
+      "same_ranking": false
+    },
+    {
+      "id": "RV-21",
+      "question": "제다이는 어떤 조직이야?",
+      "set_num": "75360-1",
+      "similarity": [
+        [
+          {
+            "url": "https://en.wikipedia.org/wiki/Jedi",
+            "title": "Jedi",
+            "revid": 1379991460,
+            "collected_at": "2026-10-21T07:40:48.265748+00:00",
+            "section_path": "",
+            "scope": "entity",
+            "doc_id": "wp-en:16379",
+            "license": "CC BY-SA 4.0",
+            "seq": 0,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "lang": "en",
+            "attribution": "Wikipedia contributors, Jedi, https://en.wikipedia.org/wiki/Jedi",
+            "chunk_config": "1000/200/200",
+            "sets": [
+              "75087-1",
+              "75135-1",
+              "75168-1",
+              "75191-1",
+              "75206-1",
+              "75214-1",
+              "75281-1",
+              "75330-1",
+              "75333-1",
+              "75358-1",
+              "75360-1",
+              "75362-1",
+              "75388-1",
+              "75401-1",
+              "75422-1"
+            ],
+            "source_type": "wikipedia",
+            "entity_kind": "group",
+            "entity": "Jedi",
+            "chunk_id": "entity:wp-en:16379:0000"
+          },
+          0.7608425617218018
+        ],
+        [
+          {
+            "entity": "Jedi",
+            "collected_at": "2026-10-21T07:40:48.265748+00:00",
+            "seq": 4,
+            "attribution": "Wikipedia contributors, Jedi, https://en.wikipedia.org/wiki/Jedi",
+            "chunk_config": "1000/200/200",
+            "entity_kind": "group",
+            "url": "https://en.wikipedia.org/wiki/Jedi",
+            "revid": 1379991460,
+            "license": "CC BY-SA 4.0",
+            "lang": "en",
+            "source_type": "wikipedia",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "scope": "entity",
+            "title": "Jedi",
+            "section_path": "",
+            "doc_id": "wp-en:16379",
+            "sets": [
+              "75087-1",
+              "75135-1",
+              "75168-1",
+              "75191-1",
+              "75206-1",
+              "75214-1",
+              "75281-1",
+              "75330-1",
+              "75333-1",
+              "75358-1",
+              "75360-1",
+              "75362-1",
+              "75388-1",
+              "75401-1",
+              "75422-1"
+            ],
+            "chunk_id": "entity:wp-en:16379:0004"
+          },
+          0.8420692682266235
+        ],
+        [
+          {
+            "scope": "entity",
+            "section_path": "",
+            "doc_id": "wp-en:63171",
+            "attribution": "Wikipedia contributors, Yoda, https://en.wikipedia.org/wiki/Yoda",
+            "revid": 1368461459,
+            "license": "CC BY-SA 4.0",
+            "entity_kind": "character",
+            "source_type": "wikipedia",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "url": "https://en.wikipedia.org/wiki/Yoda",
+            "collected_at": "2026-10-21T07:41:21.077042+00:00",
+            "lang": "en",
+            "entity": "Yoda",
+            "title": "Yoda",
+            "sets": [
+              "5006290-1",
+              "6471930-1",
+              "75168-1",
+              "75208-1",
+              "75360-1",
+              "75422-1",
+              "75438-1"
+            ],
+            "seq": 1,
+            "chunk_config": "1000/200/200",
+            "chunk_id": "entity:wp-en:63171:0001"
+          },
+          0.9171167612075806
+        ],
+        [
+          {
+            "entity_kind": "character",
+            "entity": "Yoda",
+            "sets": [
+              "5006290-1",
+              "6471930-1",
+              "75168-1",
+              "75208-1",
+              "75360-1",
+              "75422-1",
+              "75438-1"
+            ],
+            "revid": 1368461459,
+            "url": "https://en.wikipedia.org/wiki/Yoda",
+            "seq": 14,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "title": "Yoda",
+            "doc_id": "wp-en:63171",
+            "license": "CC BY-SA 4.0",
+            "collected_at": "2026-10-21T07:41:21.077042+00:00",
+            "lang": "en",
+            "source_type": "wikipedia",
+            "scope": "entity",
+            "chunk_config": "1000/200/200",
+            "attribution": "Wikipedia contributors, Yoda, https://en.wikipedia.org/wiki/Yoda",
+            "section_path": "Reception › Prequel trilogy",
+            "chunk_id": "entity:wp-en:63171:0014"
+          },
+          0.967309296131134
+        ]
+      ],
+      "mmr": [
+        [
+          {
+            "source_type": "wikipedia",
+            "entity": "Jedi",
+            "section_path": "",
+            "scope": "entity",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "sets": [
+              "75087-1",
+              "75135-1",
+              "75168-1",
+              "75191-1",
+              "75206-1",
+              "75214-1",
+              "75281-1",
+              "75330-1",
+              "75333-1",
+              "75358-1",
+              "75360-1",
+              "75362-1",
+              "75388-1",
+              "75401-1",
+              "75422-1"
+            ],
+            "attribution": "Wikipedia contributors, Jedi, https://en.wikipedia.org/wiki/Jedi",
+            "revid": 1379991460,
+            "collected_at": "2026-10-21T07:40:48.265748+00:00",
+            "entity_kind": "group",
+            "title": "Jedi",
+            "doc_id": "wp-en:16379",
+            "url": "https://en.wikipedia.org/wiki/Jedi",
+            "lang": "en",
+            "seq": 0,
+            "chunk_config": "1000/200/200",
+            "license": "CC BY-SA 4.0",
+            "chunk_id": "entity:wp-en:16379:0000"
+          },
+          0.7608423233032227
+        ],
+        [
+          {
+            "source_type": "wikipedia",
+            "seq": 0,
+            "sets": [
+              "75087-1",
+              "75135-1",
+              "75168-1",
+              "75191-1",
+              "75206-1",
+              "75214-1",
+              "75281-1",
+              "75330-1",
+              "75333-1",
+              "75358-1",
+              "75360-1",
+              "75362-1",
+              "75388-1",
+              "75401-1",
+              "75422-1"
+            ],
+            "doc_id": "wp-ko:77255",
+            "lang": "ko",
+            "collected_at": "2026-10-21T07:42:22.774561+00:00",
+            "license": "CC BY-SA 4.0",
+            "entity_kind": "group",
+            "chunk_config": "1000/200/200",
+            "title": "제다이",
+            "scope": "entity",
+            "attribution": "Wikipedia contributors, 제다이, https://ko.wikipedia.org/wiki/%EC%A0%9C%EB%8B%A4%EC%9D%B4",
+            "revid": 39038675,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "url": "https://ko.wikipedia.org/wiki/%EC%A0%9C%EB%8B%A4%EC%9D%B4",
+            "entity": "Jedi",
+            "section_path": "명칭",
+            "chunk_id": "entity:wp-ko:77255:0000"
+          },
+          0.8576163053512573
+        ],
+        [
+          {
+            "revid": 1368461459,
+            "entity": "Yoda",
+            "chunk_config": "1000/200/200",
+            "lang": "en",
+            "source_type": "wikipedia",
+            "entity_kind": "character",
+            "section_path": "Reception › Prequel trilogy",
+            "title": "Yoda",
+            "url": "https://en.wikipedia.org/wiki/Yoda",
+            "sets": [
+              "5006290-1",
+              "6471930-1",
+              "75168-1",
+              "75208-1",
+              "75360-1",
+              "75422-1",
+              "75438-1"
+            ],
+            "collected_at": "2026-10-21T07:41:21.077042+00:00",
+            "doc_id": "wp-en:63171",
+            "license": "CC BY-SA 4.0",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "attribution": "Wikipedia contributors, Yoda, https://en.wikipedia.org/wiki/Yoda",
+            "seq": 15,
+            "scope": "entity",
+            "chunk_id": "entity:wp-en:63171:0015"
+          },
+          0.9903931617736816
+        ]
+      ],
+      "common_chunks": 1,
+      "same_ranking": false
+    },
+    {
+      "id": "RV-34",
+      "question": "레고 스타워즈 미니피겨 중에 희귀한 건 뭐야?",
+      "set_num": "75203-1",
+      "similarity": [
+        [
+          {
+            "section_path": "얼티밋 컬렉터 시리즈",
+            "attribution": "Wikipedia contributors, 레고 스타워즈, https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "revid": 41491095,
+            "chunk_config": "1000/200/200",
+            "collected_at": "2026-10-21T05:17:05.516328+00:00",
+            "scope": "series",
+            "doc_id": "wp-ko:702296",
+            "lang": "ko",
+            "license": "CC BY-SA 4.0",
+            "entity_kind": "series",
+            "source_type": "wikipedia",
+            "seq": 0,
+            "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "title": "레고 스타워즈",
+            "entity": "",
+            "chunk_id": "series:wp-ko:702296:0000"
+          },
+          1.0904276371002197
+        ],
+        [
+          {
+            "scope": "entity",
+            "attribution": "Wikipedia contributors, Hoth, https://en.wikipedia.org/wiki/Hoth",
+            "source_type": "wikipedia",
+            "sets": [
+              "40333-1",
+              "75138-1",
+              "75203-1",
+              "75239-1",
+              "75322-1"
+            ],
+            "license": "CC BY-SA 4.0",
+            "entity_kind": "place",
+            "revid": 1378025439,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "section_path": "Description › Film",
+            "entity": "Hoth",
+            "seq": 1,
+            "chunk_config": "1000/200/200",
+            "title": "Hoth",
+            "collected_at": "2026-10-21T07:40:45.838838+00:00",
+            "lang": "en",
+            "url": "https://en.wikipedia.org/wiki/Hoth",
+            "doc_id": "wp-en:261660",
+            "chunk_id": "entity:wp-en:261660:0001"
+          },
+          1.1228923797607422
+        ],
+        [
+          {
+            "entity_kind": "series",
+            "title": "레고 스타워즈",
+            "revid": 41491095,
+            "chunk_config": "1000/200/200",
+            "attribution": "Wikipedia contributors, 레고 스타워즈, https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "license": "CC BY-SA 4.0",
+            "section_path": "2013",
+            "source_type": "wikipedia",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "entity": "",
+            "lang": "ko",
+            "scope": "series",
+            "seq": 11,
+            "doc_id": "wp-ko:702296",
+            "collected_at": "2026-10-21T05:17:05.516328+00:00",
+            "chunk_id": "series:wp-ko:702296:0011"
+          },
+          1.179806113243103
+        ],
+        [
+          {
+            "collected_at": "2026-10-21T07:40:45.838838+00:00",
+            "doc_id": "wp-en:261660",
+            "lang": "en",
+            "seq": 3,
+            "revid": 1378025439,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "source_type": "wikipedia",
+            "license": "CC BY-SA 4.0",
+            "attribution": "Wikipedia contributors, Hoth, https://en.wikipedia.org/wiki/Hoth",
+            "url": "https://en.wikipedia.org/wiki/Hoth",
+            "section_path": "Description › Legends | Description › Tabletop game",
+            "entity_kind": "place",
+            "chunk_config": "1000/200/200",
+            "scope": "entity",
+            "entity": "Hoth",
+            "title": "Hoth",
+            "sets": [
+              "40333-1",
+              "75138-1",
+              "75203-1",
+              "75239-1",
+              "75322-1"
+            ],
+            "chunk_id": "entity:wp-en:261660:0003"
+          },
+          1.1946715116500854
+        ],
+        [
+          {
+            "section_path": "상세",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "collected_at": "2026-10-21T07:42:31.584234+00:00",
+            "seq": 0,
+            "url": "https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4_(%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88)",
+            "entity_kind": "place",
+            "chunk_config": "1000/200/200",
+            "title": "호스 (스타워즈)",
+            "entity": "Hoth",
+            "scope": "entity",
+            "source_type": "wikipedia",
+            "lang": "ko",
+            "sets": [
+              "40333-1",
+              "75138-1",
+              "75203-1",
+              "75239-1",
+              "75322-1"
+            ],
+            "license": "CC BY-SA 4.0",
+            "revid": 39410625,
+            "attribution": "Wikipedia contributors, 호스 (스타워즈), https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4_(%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88)",
+            "doc_id": "wp-ko:1397549",
+            "chunk_id": "entity:wp-ko:1397549:0000"
+          },
+          1.288137435913086
+        ]
+      ],
+      "mmr": [
+        [
+          {
+            "seq": 0,
+            "doc_id": "wp-ko:702296",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "lang": "ko",
+            "entity_kind": "series",
+            "source_type": "wikipedia",
+            "revid": 41491095,
+            "scope": "series",
+            "entity": "",
+            "license": "CC BY-SA 4.0",
+            "chunk_config": "1000/200/200",
+            "section_path": "얼티밋 컬렉터 시리즈",
+            "attribution": "Wikipedia contributors, 레고 스타워즈, https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "collected_at": "2026-10-21T05:17:05.516328+00:00",
+            "title": "레고 스타워즈",
+            "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "chunk_id": "series:wp-ko:702296:0000"
+          },
+          1.0904271602630615
+        ],
+        [
+          {
+            "collected_at": "2026-10-21T07:40:45.838838+00:00",
+            "scope": "entity",
+            "license": "CC BY-SA 4.0",
+            "seq": 1,
+            "doc_id": "wp-en:261660",
+            "url": "https://en.wikipedia.org/wiki/Hoth",
+            "source_type": "wikipedia",
+            "lang": "en",
+            "revid": 1378025439,
+            "entity_kind": "place",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "chunk_config": "1000/200/200",
+            "entity": "Hoth",
+            "section_path": "Description › Film",
+            "attribution": "Wikipedia contributors, Hoth, https://en.wikipedia.org/wiki/Hoth",
+            "sets": [
+              "40333-1",
+              "75138-1",
+              "75203-1",
+              "75239-1",
+              "75322-1"
+            ],
+            "title": "Hoth",
+            "chunk_id": "entity:wp-en:261660:0001"
+          },
+          1.1228920221328735
+        ],
+        [
+          {
+            "revid": 41491095,
+            "license": "CC BY-SA 4.0",
+            "chunk_config": "1000/200/200",
+            "collected_at": "2026-10-21T05:17:05.516328+00:00",
+            "entity_kind": "series",
+            "entity": "",
+            "doc_id": "wp-ko:702296",
+            "source_type": "wikipedia",
+            "seq": 3,
+            "lang": "ko",
+            "section_path": "얼티밋 컬렉터 시리즈 › 2003 | 얼티밋 컬렉터 시리즈 › 2004",
+            "scope": "series",
+            "title": "레고 스타워즈",
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "attribution": "Wikipedia contributors, 레고 스타워즈, https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "url": "https://ko.wikipedia.org/wiki/%EB%A0%88%EA%B3%A0_%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88",
+            "chunk_id": "series:wp-ko:702296:0003"
+          },
+          1.2029261589050293
+        ],
+        [
+          {
+            "sets": [
+              "40333-1",
+              "75138-1",
+              "75203-1",
+              "75239-1",
+              "75322-1"
+            ],
+            "chunk_config": "1000/200/200",
+            "source_type": "wikipedia",
+            "entity": "Hoth",
+            "license": "CC BY-SA 4.0",
+            "collected_at": "2026-10-21T07:42:31.584234+00:00",
+            "url": "https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4_(%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88)",
+            "attribution": "Wikipedia contributors, 호스 (스타워즈), https://ko.wikipedia.org/wiki/%ED%98%B8%EC%8A%A4_(%EC%8A%A4%ED%83%80%EC%9B%8C%EC%A6%88)",
+            "lang": "ko",
+            "doc_id": "wp-ko:1397549",
+            "seq": 0,
+            "title": "호스 (스타워즈)",
+            "revid": 39410625,
+            "chunk_config_hash": "389da8585e1a1de983607fdf19079b8eff6b9d56b91ee70aebd0f31fe074bb09",
+            "scope": "entity",
+            "section_path": "상세",
+            "entity_kind": "place",
+            "chunk_id": "entity:wp-ko:1397549:0000"
+          },
+          1.288137435913086
+        ]
+      ],
+      "common_chunks": 3,
+      "same_ranking": false
+    }
+  ],
+  "summary": {
+    "questions": 5
+  }
+}

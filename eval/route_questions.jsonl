@@ -1,0 +1,24 @@
+{"id":"route-01","question":"이 세트 부품 몇 개야?","selected_set":"75257-1","history":[],"has_collection":false,"expected_route":"fact"}
+{"id":"route-02","question":"그거 언제 나왔어?","selected_set":"75257-1","history":[{"question":"이 세트 부품 수는?","route":"fact","answer":"DB에서 부품 수를 조회했습니다."}],"has_collection":false,"expected_route":"fact"}
+{"id":"route-03","question":"75301의 미니피그는 누가 들어 있어?","selected_set":null,"history":[],"has_collection":false,"expected_route":"fact"}
+{"id":"route-04","question":"2018년 이후 나온 500부품 이하 세트 찾아줘","selected_set":null,"history":[],"has_collection":false,"expected_route":"filter"}
+{"id":"route-05","question":"UCS 중 2010년 이전 제품 보여줘","selected_set":null,"history":[],"has_collection":false,"expected_route":"filter"}
+{"id":"route-06","question":"미니피그 없는 작은 지상 탈것 찾아줘","selected_set":null,"history":[],"has_collection":false,"expected_route":"filter"}
+{"id":"route-07","question":"최신순으로 X-wing 세트 보여줘","selected_set":null,"history":[],"has_collection":false,"expected_route":"filter"}
+{"id":"route-08","question":"75257과 75375의 공통 부품은?","selected_set":null,"history":[],"has_collection":false,"expected_route":"set_ops"}
+{"id":"route-09","question":"이 세트와 75301에서 겹치는 부품 알려줘","selected_set":"75300-1","history":[],"has_collection":false,"expected_route":"set_ops"}
+{"id":"route-10","question":"75300과 75301에 같은 부품이 얼마나 있어?","selected_set":null,"history":[],"has_collection":false,"expected_route":"set_ops"}
+{"id":"route-11","question":"이 기체의 역사와 배경을 알려줘","selected_set":"75257-1","history":[],"has_collection":false,"expected_route":"narrative"}
+{"id":"route-12","question":"그거 왜 유명해?","selected_set":"75257-1","history":[{"question":"팔콘은 어떤 기체야?","route":"narrative","answer":"밀레니엄 팔콘에 대한 근거를 확인했습니다."}],"has_collection":false,"expected_route":"narrative"}
+{"id":"route-13","question":"75301의 기체가 작품에서 어떤 역할을 해?","selected_set":null,"history":[],"has_collection":false,"expected_route":"narrative"}
+{"id":"route-14","question":"밀레니엄 팔콘이 연도별로 어떻게 달라졌어?","selected_set":null,"history":[],"has_collection":false,"expected_route":"compare"}
+{"id":"route-15","question":"이 세트랑 75375는 뭐가 달라?","selected_set":"75257-1","history":[],"has_collection":false,"expected_route":"compare"}
+{"id":"route-16","question":"X-wing 판본의 변천을 비교해줘","selected_set":null,"history":[],"has_collection":false,"expected_route":"compare"}
+{"id":"route-17","question":"이 기체의 다른 판본은 차이가 뭐야?","selected_set":"75301-1","history":[{"question":"이 세트는 언제 나왔어?","route":"fact","answer":"출시 연도를 확인했습니다."}],"has_collection":false,"expected_route":"compare"}
+{"id":"route-18","question":"내 세트로 만들 수 있는 세트 추천해줘","selected_set":null,"history":[],"has_collection":true,"collection_sets":[["75257-1",1]],"expected_route":"build"}
+{"id":"route-19","question":"내 부품으로 이 세트 만들려면 뭐가 부족해?","selected_set":"75301-1","history":[],"has_collection":true,"collection_sets":[["75300-1",2]],"expected_route":"build"}
+{"id":"route-20","question":"75375를 만들려면 부족한 부품이 뭐야?","selected_set":null,"history":[],"has_collection":false,"expected_route":"build","expected_rule":"no_collection"}
+{"id":"route-21","question":"내 부품으로 부족 수량이 가장 적은 세트와 그 특징을 알려줘","selected_set":null,"history":[],"has_collection":true,"collection_sets":[["75257-1",1]],"expected_route":"build_archive"}
+{"id":"route-22","question":"내 세트로 부족 20개 이하로 만들 수 있는 것 중 가장 오래된 건? 특징도","selected_set":null,"history":[],"has_collection":true,"collection_sets":[["75257-1",1],["75375-1",1]],"expected_route":"build_archive"}
+{"id":"route-23","question":"내 부품으로 만들 후보 중 커버리지가 가장 높은 기체의 배경 설명해줘","selected_set":null,"history":[],"has_collection":true,"collection_sets":[["75300-1",1]],"expected_route":"build_archive"}
+{"id":"route-24","question":"내 세트로 만들 수 있는 것 중 부품 수가 가장 적은 세트를 골라 역사를 알려줘","selected_set":null,"history":[],"has_collection":true,"collection_sets":[["75301-1",1]],"expected_route":"build_archive"}

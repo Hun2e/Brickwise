@@ -1,0 +1,1708 @@
+{
+  "schema_version": 1,
+  "experiment": "rag-compare",
+  "started_at": "2026-10-22T07:46:07.016060+00:00",
+  "finished_at": "2026-10-22T07:48:59.937686+00:00",
+  "model": "gpt-5.4-nano",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": false,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "unsupported_attrs": "config/unsupported_attrs.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "error_log": "logs/eval_error.log",
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "similarity_fetch_k": 20,
+      "query_mode": "question",
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "mmr",
+      "mmr_fetch_k": 40,
+      "mmr_lambda": 0.7,
+      "mmr_apply_caps": false,
+      "mmr_caps": "none",
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_intro_chars": 500,
+      "domain_keywords": [
+        "star wars",
+        "스타워즈",
+        "스타 워즈",
+        "jedi",
+        "제다이",
+        "sith",
+        "시스 로드",
+        "시스 군주",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "레고",
+        "skywalker",
+        "스카이워커",
+        "death star",
+        "데스 스타",
+        "millennium falcon",
+        "밀레니엄 팔콘",
+        "republic attack gunship",
+        "boba fett",
+        "보바 펫",
+        "darth vader",
+        "다스 베이더"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v3",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "fact_cues": [
+        "부품",
+        "피스",
+        "몇 개",
+        "개수",
+        "연도",
+        "언제",
+        "출시",
+        "나왔",
+        "미니피그",
+        "미니피규어",
+        "피규어",
+        "피겨",
+        "테마",
+        "서브테마",
+        "pieces",
+        "parts",
+        "minifig",
+        "figure",
+        "year",
+        "released",
+        "theme"
+      ],
+      "recommendation_refs": [
+        "그 기체",
+        "그거",
+        "그 세트"
+      ],
+      "recommendation_cues": [
+        "추천",
+        "만들 수 있는"
+      ],
+      "ignore_color_cues": [
+        "색깔 상관없이",
+        "색상 상관없이",
+        "색깔 무시",
+        "색상 무시",
+        "색깔은 상관없",
+        "색상은 상관없"
+      ]
+    }
+  },
+  "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+  "dataset_hash": "2a80f26a2964ad09cc7c51ce46685fd4b03eb4015a287357590616ae370bfe40",
+  "solo_prompt_version": "solo-v1",
+  "repetitions": 1,
+  "mode": "live",
+  "collection_cache_preserved": true,
+  "rows": [
+    {
+      "id": "B-01",
+      "question": "레고 75313 AT-AT(UCS)는 부품이 몇 개야?",
+      "set_num": "75313-1",
+      "type": "fact",
+      "facts": [
+        {
+          "field": "num_parts",
+          "value": 6785
+        }
+      ],
+      "note": "대형 UCS, 숫자 환각 유도",
+      "started_at": "2026-10-22T07:46:07.615667+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 **75313 AT-AT (UCS)**의 **부품 수는 6,785개**입니다.",
+        "elapsed_ms": 13965.244100079872,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 61,
+          "output_tokens": 29
+        },
+        "warnings": [],
+        "facts": [
+          {
+            "field": "num_parts",
+            "expected": 6785,
+            "status": "correct",
+            "found": [
+              "6785"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "fact",
+        "route_source": "llm",
+        "answer": "75313-1 AT-AT: 공식 부품 수는 6,785개. [근거 1]",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "db",
+            "title": "세트 정보 · 75313-1",
+            "url": "https://rebrickable.com/sets/75313-1/",
+            "license": "Rebrickable",
+            "text": "[DB] 세트: 75313-1 AT-AT\n공식 부품 수: 6,785개\n출시 연도: 2021\n서브테마: Ultimate Collector Series\n미니피그(9): AT-AT Driver × 2, General Maximillian Veers × 1, Luke Skywalker × 1, Snowtrooper × 5\n범위: compare_only",
+            "item_id": "75313-1",
+            "doc_id": "",
+            "chunk_id": "",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          }
+        ],
+        "tables": [],
+        "set_nums": [
+          "75313-1"
+        ],
+        "needs_input": null,
+        "warnings": [],
+        "usage": {
+          "router": {
+            "input_tokens": 1280,
+            "output_tokens": 38,
+            "cached": false,
+            "attempts": 1
+          }
+        },
+        "timings": {
+          "routing_ms": 1138,
+          "total_ms": 1160
+        },
+        "verification": {
+          "checked": 2,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 1160.806900006719,
+        "cited_card_count": 1,
+        "facts": [
+          {
+            "field": "num_parts",
+            "expected": 6785,
+            "status": "correct",
+            "found": [
+              "6785"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 1,
+        "citation_mentions": 1
+      }
+    },
+    {
+      "id": "B-02",
+      "question": "레고 75423 Luke's Red Five X-wing은 몇 년에 나왔고 부품은 몇 개야?",
+      "set_num": "75423-1",
+      "type": "fact",
+      "facts": [
+        {
+          "field": "year",
+          "value": 2026
+        },
+        {
+          "field": "num_parts",
+          "value": 581
+        }
+      ],
+      "note": "모델 학습 이후 출시 가능성 — 최신 정보",
+      "started_at": "2026-10-22T07:46:22.742905+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 스타워즈 **75423 Luke’s Red Five X-wing**은 **2019년에 출시**되었고, **부품 수는 1,000개**입니다.",
+        "elapsed_ms": 1294.5218000095338,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 68,
+          "output_tokens": 42
+        },
+        "warnings": [],
+        "facts": [
+          {
+            "field": "year",
+            "expected": 2026,
+            "status": "wrong",
+            "found": [
+              "2019"
+            ]
+          },
+          {
+            "field": "num_parts",
+            "expected": 581,
+            "status": "wrong",
+            "found": [
+              "1000"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "fact",
+        "route_source": "llm",
+        "answer": "75423-1 Luke's Red Five X-wing: 출시 연도는 2026년 · 공식 부품 수는 581개. [근거 1]",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "db",
+            "title": "세트 정보 · 75423-1",
+            "url": "https://rebrickable.com/sets/75423-1/",
+            "license": "Rebrickable",
+            "text": "[DB] 세트: 75423-1 Luke's Red Five X-wing\n공식 부품 수: 581개\n출시 연도: 2026\n서브테마: Star Wars\n미니피그(5): Luke Skywalker × 1, Princess Leia × 1, R2-D2 (SMART Play) × 1, Rebel Crew × 1, Stormtrooper × 1\n범위: core",
+            "item_id": "75423-1",
+            "doc_id": "",
+            "chunk_id": "",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          }
+        ],
+        "tables": [],
+        "set_nums": [
+          "75423-1"
+        ],
+        "needs_input": null,
+        "warnings": [],
+        "usage": {
+          "router": {
+            "input_tokens": 1290,
+            "output_tokens": 42,
+            "cached": false,
+            "attempts": 1
+          }
+        },
+        "timings": {
+          "routing_ms": 1204,
+          "total_ms": 1225
+        },
+        "verification": {
+          "checked": 3,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 1224.7756000142545,
+        "cited_card_count": 1,
+        "facts": [
+          {
+            "field": "year",
+            "expected": 2026,
+            "status": "correct",
+            "found": [
+              "2026"
+            ]
+          },
+          {
+            "field": "num_parts",
+            "expected": 581,
+            "status": "correct",
+            "found": [
+              "581"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 1,
+        "citation_mentions": 1
+      }
+    },
+    {
+      "id": "B-03",
+      "question": "레고 75375 밀레니엄 팔콘에는 미니피규어가 몇 개 들어 있어?",
+      "set_num": "75375-1",
+      "type": "fact",
+      "facts": [
+        {
+          "field": "minifigs",
+          "value": 0
+        }
+      ],
+      "note": "미드스케일, 미니피그 0개 — 지어내기 쉬움",
+      "started_at": "2026-10-22T07:46:25.262665+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 **75375 밀레니엄 팔콘**에는 **미니피규어가 4개** 들어 있습니다.",
+        "elapsed_ms": 954.564799903892,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 66,
+          "output_tokens": 30
+        },
+        "warnings": [],
+        "facts": [
+          {
+            "field": "minifigs",
+            "expected": 0,
+            "status": "wrong",
+            "found": [
+              "4"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "fact",
+        "route_source": "llm",
+        "answer": "75375-1 Millennium Falcon: 미니피그(0): 없음. [근거 1]",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "db",
+            "title": "세트 정보 · 75375-1",
+            "url": "https://rebrickable.com/sets/75375-1/",
+            "license": "Rebrickable",
+            "text": "[DB] 세트: 75375-1 Millennium Falcon\n공식 부품 수: 921개\n출시 연도: 2024\n서브테마: Star Wars\n미니피그(0): 없음\n범위: core",
+            "item_id": "75375-1",
+            "doc_id": "",
+            "chunk_id": "",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          }
+        ],
+        "tables": [],
+        "set_nums": [
+          "75375-1"
+        ],
+        "needs_input": null,
+        "warnings": [],
+        "usage": {
+          "router": {
+            "input_tokens": 1285,
+            "output_tokens": 43,
+            "cached": false,
+            "attempts": 1
+          }
+        },
+        "timings": {
+          "routing_ms": 893,
+          "total_ms": 918
+        },
+        "verification": {
+          "checked": 1,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 918.2602999499068,
+        "cited_card_count": 1,
+        "facts": [
+          {
+            "field": "minifigs",
+            "expected": 0,
+            "status": "correct",
+            "found": [
+              "0"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 1,
+        "citation_mentions": 1
+      }
+    },
+    {
+      "id": "B-04",
+      "question": "레고 75192 밀레니엄 팔콘과 75257 밀레니엄 팔콘은 부품 수와 출시 연도가 어떻게 달라?",
+      "set_num": "75192-1",
+      "type": "compare",
+      "facts": [
+        {
+          "field": "num_parts:75192-1",
+          "value": 7541
+        },
+        {
+          "field": "num_parts:75257-1",
+          "value": 1328
+        },
+        {
+          "field": "year:75192-1",
+          "value": 2017
+        },
+        {
+          "field": "year:75257-1",
+          "value": 2019
+        }
+      ],
+      "note": "75257 공식 부품 수 1,351과 DB 1,328 차이 주석 필요(ADR 부품 집계)",
+      "started_at": "2026-10-22T07:46:27.135504+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 **밀레니엄 팔콘** 두 세트(질문하신 **75192**와 **75257**)는 다음처럼 **출시 연도와 부품 수**가 다릅니다.\n\n- **75192 밀레니엄 팔콘**\n  - **출시 연도:** 2019년  \n  - **부품 수:** **7541개**\n\n- **75257 밀레니엄 팔콘**\n  - **출시 연도:** 2019년  \n  - **부품 수:** **2591개**\n\n즉, 두 세트 모두 2019년에 출시됐지만 **75192가 부품 수가 훨씬 많고(7541개)**, **75257은 더 작은 구성(2591개)**입니다.",
+        "elapsed_ms": 1688.5313999373466,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 76,
+          "output_tokens": 167
+        },
+        "warnings": [],
+        "facts": [
+          {
+            "field": "num_parts:75192-1",
+            "expected": 7541,
+            "status": "correct",
+            "found": [
+              "7541"
+            ]
+          },
+          {
+            "field": "num_parts:75257-1",
+            "expected": 1328,
+            "status": "wrong",
+            "found": [
+              "2591"
+            ]
+          },
+          {
+            "field": "year:75192-1",
+            "expected": 2017,
+            "status": "wrong",
+            "found": [
+              "2019"
+            ]
+          },
+          {
+            "field": "year:75257-1",
+            "expected": 2019,
+            "status": "correct",
+            "found": [
+              "2019"
+            ]
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "compare",
+        "route_source": "llm",
+        "answer": "- **확인됨(출시 연도)**: 75192-1(2017) / 75257-1(2019) [근거 1]  \n- **확인됨(공식 부품 수)**: 75192-1(7,541개) / 75257-1(1,328개) [근거 1]  \n- **확인됨(참고: 75257의 부품 목록 집계 불일치)**: 75257-1은 “부품 목록 집계 1,351개”가 따로 표시됩니다. [근거 1]  \n\n(참고: 질문이 “공식 부품 수” 기준인지 명시하지 않았지만, 제공된 자료에서는 두 세트 모두 “공식 부품 수”가 함께 제시되어 있어 그 값을 비교했습니다.) [근거 1]",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "db",
+            "title": "판본 비교 · Millennium Falcon",
+            "url": "https://rebrickable.com/sets/7190-1/",
+            "license": "Rebrickable",
+            "text": "[DB] 판본 비교: Millennium Falcon\n비교 판본: 10개\n세트: 7190-1 · 출시 연도: 2000 · 공식 부품 수: 671개 · 미니피그: 6\n세트: 4504-1/4504-2 · 출시 연도: 2004 · 공식 부품 수: 997개 · 미니피그: 5\n세트: 10179-1 · 출시 연도: 2007 · 공식 부품 수: 5,198개 · 미니피그: 5\n세트: 7965-1 · 출시 연도: 2011 · 공식 부품 수: 1,254개 · 미니피그: 6\n세트: 75105-1 · 출시 연도: 2015 · 공식 부품 수: 1,330개 · 미니피그: 7\n세트: 75192-1 · 출시 연도: 2017 · 공식 부품 수: 7,541개 · 미니피그: 10\n세트: 75212-1 · 출시 연도: 2018 · 공식 부품 수: 1,414개 · 미니피그: 7\n세트: 75257-1 · 출시 연도: 2019 · 공식 부품 수: 1,328개 · 미니피그: 6 (75257-1: 부품 목록 집계 1,351개 — 원본 불일치)\n세트: 75375-1 · 출시 연도: 2024 · 공식 부품 수: 921개 · 미니피그: 0\n세트: 75426-1 · 출시 연도: 2026 · 공식 부품 수: 885개 · 미니피그: 4\n기타 변형 4개 (비교 대상 제외)",
+            "item_id": "7190-1,4504-1,4504-2,10179-1,7965-1,75105-1,75192-1,75212-1,75257-1,75375-1,75426-1",
+            "doc_id": "",
+            "chunk_id": "",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          }
+        ],
+        "tables": [
+          {
+            "title": "판본 비교",
+            "columns": [
+              "세트 번호",
+              "이름",
+              "연도",
+              "공식 부품 수",
+              "미니피그 수",
+              "서브테마",
+              "범위"
+            ],
+            "rows": [
+              [
+                "7190-1",
+                "Millennium Falcon",
+                2000,
+                671,
+                6,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "4504-1/4504-2",
+                "Millennium Falcon (Blue Box Version) / Millennium Falcon (Black Box Version)",
+                2004,
+                997,
+                5,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "10179-1",
+                "Millennium Falcon",
+                2007,
+                5198,
+                5,
+                "Ultimate Collector Series",
+                "compare_only"
+              ],
+              [
+                "7965-1",
+                "Millennium Falcon",
+                2011,
+                1254,
+                6,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "75105-1",
+                "Millennium Falcon",
+                2015,
+                1330,
+                7,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75192-1",
+                "Millennium Falcon",
+                2017,
+                7541,
+                10,
+                "Ultimate Collector Series",
+                "compare_only"
+              ],
+              [
+                "75212-1",
+                "Kessel Run Millennium Falcon",
+                2018,
+                1414,
+                7,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75257-1",
+                "Millennium Falcon",
+                2019,
+                1328,
+                6,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75375-1",
+                "Millennium Falcon",
+                2024,
+                921,
+                0,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75426-1",
+                "Millennium Falcon",
+                2026,
+                885,
+                4,
+                "Star Wars",
+                "core"
+              ]
+            ],
+            "formats": {
+              "연도": "year",
+              "공식 부품 수": "count",
+              "미니피그 수": "count"
+            }
+          }
+        ],
+        "set_nums": [
+          "75192-1",
+          "75257-1"
+        ],
+        "needs_input": null,
+        "warnings": [
+          "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치).",
+          "검증되지 않은 수치를 포함한 문장 2개를 제외했습니다"
+        ],
+        "usage": {
+          "router": {
+            "input_tokens": 1295,
+            "output_tokens": 41,
+            "cached": false,
+            "attempts": 1
+          },
+          "rag": {
+            "p1": {
+              "calls": 1,
+              "input_tokens": 553,
+              "output_tokens": 104
+            },
+            "p3": {
+              "calls": 1,
+              "input_tokens": 2406,
+              "output_tokens": 314
+            }
+          }
+        },
+        "timings": {
+          "routing_ms": 1215,
+          "retrieve_ms": 19871,
+          "generate_ms": 19431,
+          "total_ms": 41141
+        },
+        "verification": {
+          "checked": 22,
+          "removed": 2,
+          "items": [
+            {
+              "value": "2",
+              "sentence_index": 0
+            },
+            {
+              "value": "6213",
+              "sentence_index": 0
+            },
+            {
+              "value": "6213",
+              "sentence_index": 3
+            }
+          ]
+        },
+        "elapsed_ms": 41141.3669999456,
+        "cited_card_count": 1,
+        "facts": [
+          {
+            "field": "num_parts:75192-1",
+            "expected": 7541,
+            "status": "correct",
+            "found": [
+              "7541"
+            ]
+          },
+          {
+            "field": "num_parts:75257-1",
+            "expected": 1328,
+            "status": "correct",
+            "found": [
+              "1328"
+            ]
+          },
+          {
+            "field": "year:75192-1",
+            "expected": 2017,
+            "status": "missing",
+            "found": []
+          },
+          {
+            "field": "year:75257-1",
+            "expected": 2019,
+            "status": "missing",
+            "found": []
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 1,
+        "citation_mentions": 4
+      }
+    },
+    {
+      "id": "B-05",
+      "question": "레고 AT-AT 75288과 75440은 뭐가 달라?",
+      "set_num": "75288-1",
+      "type": "compare",
+      "facts": [
+        {
+          "field": "num_parts:75288-1",
+          "value": 1267
+        },
+        {
+          "field": "num_parts:75440-1",
+          "value": 525
+        },
+        {
+          "field": "year:75288-1",
+          "value": 2020
+        },
+        {
+          "field": "year:75440-1",
+          "value": 2026
+        }
+      ],
+      "note": "판본 혼동 유도",
+      "started_at": "2026-10-22T07:47:09.967042+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "좋은 질문이에요. 다만 제가 **AT-AT 75288**과 **AT-AT 75440의 “정확한” 제품 사양/차이**를 지금 이 자리에서 확정해서 말하긴 어렵습니다(두 모델의 구성품/프레임 차이를 실시간으로 대조할 수 없어요).  \n**어떤 차이(예: 연식, 구성품, 스케일/크기, 관절 기믹, 조종사/미니피겨 수, 가격대, 독점 부품)**를 원하시는지에 따라 답이 달라질 수 있어서요.\n\n그래도 정확히 비교해드리기 위해, 아래 중 하나만 알려주시면 **두 제품의 차이를 항목별로 정리**해드릴게요.\n\n1) 각 제품의 **박스/설명서 앞면 사진** 또는  \n2) **LEGO 공식 링크**(또는 브릭뱅크/아마존 등 상세페이지 링크) 또는  \n3) 각 세트의 **제품 페이지에 있는 정보**(미니피겨 수, 브릭 수, 포함 차량/인원/액세서리, 특징 기믹)\n\n원하시면 질문을 이렇게 좁혀도 좋아요:  \n- “둘 중 뭐가 더 크고 관절이 더 많은가?”  \n- “미니피겨/포함 인원 차이가 뭐야?”  \n- “부품 구성(대포/캐논/프레임/머리 모양)이 어떻게 달라?”\n\n링크나 사진 하나만 주시면, 그걸 기준으로 **확실하게** 비교해서 답해드릴게요.",
+        "elapsed_ms": 2987.455200054683,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 61,
+          "output_tokens": 361
+        },
+        "warnings": [],
+        "facts": [
+          {
+            "field": "num_parts:75288-1",
+            "expected": 1267,
+            "status": "missing",
+            "found": []
+          },
+          {
+            "field": "num_parts:75440-1",
+            "expected": 525,
+            "status": "missing",
+            "found": []
+          },
+          {
+            "field": "year:75288-1",
+            "expected": 2020,
+            "status": "missing",
+            "found": []
+          },
+          {
+            "field": "year:75440-1",
+            "expected": 2026,
+            "status": "missing",
+            "found": []
+          }
+        ],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "compare",
+        "route_source": "llm",
+        "answer": "레고 **AT-AT 75288-1**과 **AT-AT 75440-1**의 확인되는 차이는 **출시 연도, 공식 부품 수, 미니피그 유무(개수)**입니다. [근거 1][근거 2]\n\n- **출시 연도**\n  - 75288-1: **2020** [근거 1][근거 2]\n  - 75440-1: **2026** [근거 1]\n\n- **공식 부품 수**\n  - 75288-1: **1,267개** [근거 1][근거 2]\n  - 75440-1: **525개** [근거 1]\n\n- **미니피그**\n  - 75288-1: **미니피그 6명**(AT-AT Driver, General Maximillian Veers, Luke Skywalker, Snowtrooper) [근거 2]\n  - 75440-1: **미니피그 0명** [근거 1]\n\n제공된 자료에서는 위 항목 외의(예: 외형/부품 구성 변경, 버전명, UCS 여부 등) 구체적인 차이는 확인되지 않습니다.",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "db",
+            "title": "판본 비교 · Walker (Star Wars)",
+            "url": "https://rebrickable.com/sets/4483-1/",
+            "license": "Rebrickable",
+            "text": "[DB] 판본 비교: Walker (Star Wars)\n비교 판본: 26개\n세트: 4483-1 · 출시 연도: 2003 · 공식 부품 수: 1,070개 · 미니피그: 4\n세트: 4483-2 · 출시 연도: 2004 · 공식 부품 수: 1,070개 · 미니피그: 4\n세트: 10178-1 · 출시 연도: 2007 · 공식 부품 수: 1,137개 · 미니피그: 4\n세트: 8129-1 · 출시 연도: 2010 · 공식 부품 수: 815개 · 미니피그: 8\n세트: 75054-1 · 출시 연도: 2014 · 공식 부품 수: 1,138개 · 미니피그: 5\n세트: 75083-1 · 출시 연도: 2015 · 공식 부품 수: 500개 · 미니피그: 4\n세트: 75153-1 · 출시 연도: 2016 · 공식 부품 수: 449개 · 미니피그: 3\n세트: 75157-1 · 출시 연도: 2016 · 공식 부품 수: 972개 · 미니피그: 5\n세트: 75177-1 · 출시 연도: 2017 · 공식 부품 수: 554개 · 미니피그: 4\n세트: 75189-1 · 출시 연도: 2017 · 공식 부품 수: 1,376개 · 미니피그: 5\n세트: 75195-1 · 출시 연도: 2018 · 공식 부품 수: 216개 · 미니피그: 2\n세트: 75201-1 · 출시 연도: 2018 · 공식 부품 수: 370개 · 미니피그: 4\n세트: 75219-1 · 출시 연도: 2018 · 공식 부품 수: 829개 · 미니피그: 5\n세트: 75234-1 · 출시 연도: 2019 · 공식 부품 수: 689개 · 미니피그: 5\n세트: 75254-1 · 출시 연도: 2019 · 공식 부품 수: 540개 · 미니피그: 4\n세트: 75261-1 · 출시 연도: 2019 · 공식 부품 수: 250개 · 미니피그: 5\n세트: 75288-1 · 출시 연도: 2020 · 공식 부품 수: 1,267개 · 미니피그: 6\n세트: 75298-1 · 출시 연도: 2021 · 공식 부품 수: 205개 · 미니피그: 2\n세트: 75313-1 · 출시 연도: 2021 · 공식 부품 수: 6,785개 · 미니피그: 9\n세트: 75322-1 · 출시 연도: 2022 · 공식 부품 수: 586개 · 미니피그: 4\n세트: 75337-1 · 출시 연도: 2022 · 공식 부품 수: 1,082개 · 미니피그: 9\n세트: 40806-1 · 출시 연도: 2025 · 공식 부품 수: 697개 · 미니피그: 1\n세트: 75424-1 · 출시 연도: 2026 · 공식 부품 수: 347개 · 미니피그: 3\n세트: 75440-1 · 출시 연도: 2026 · 공식 부품 수: 525개 · 미니피그: 0\n세트: 75444-1 · 출시 연도: 2026 · 공식 부품 수: 297개 · 미니피그: 3\n세트: 75454-1 · 출시 연도: 2026 · 공식 부품 수: 1,453개 · 미니피그: 7\n기타 변형 2개 (비교 대상 제외)",
+            "item_id": "4483-1,4483-2,10178-1,8129-1,75054-1,75083-1,75153-1,75157-1,75177-1,75189-1,75195-1,75201-1,75219-1,75234-1,75254-1,75261-1,75288-1,75298-1,75313-1,75322-1,75337-1,40806-1,75424-1,75440-1,75444-1,75454-1",
+            "doc_id": "",
+            "chunk_id": "",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          },
+          {
+            "n": 2,
+            "source_type": "set_meta",
+            "title": "AT-AT",
+            "url": "https://rebrickable.com/sets/75288-1/",
+            "license": "Rebrickable",
+            "text": "세트: AT-AT (75288-1)\n연도: 2020 · 테마: Star Wars · 공식 부품 수: 1,267개\n미니피그(6): AT-AT Driver, General Maximillian Veers, Luke Skywalker, Snowtrooper\n관련: Walker (Star Wars)",
+            "item_id": "75288-1",
+            "doc_id": "75288-1",
+            "chunk_id": "75288-1",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          }
+        ],
+        "tables": [
+          {
+            "title": "판본 비교",
+            "columns": [
+              "세트 번호",
+              "이름",
+              "연도",
+              "공식 부품 수",
+              "미니피그 수",
+              "서브테마",
+              "범위"
+            ],
+            "rows": [
+              [
+                "4483-1",
+                "AT-AT [Black Box]",
+                2003,
+                1070,
+                4,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "4483-2",
+                "AT-AT [Blue Box]",
+                2004,
+                1070,
+                4,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "10178-1",
+                "Motorized Walking AT-AT",
+                2007,
+                1137,
+                4,
+                "Ultimate Collector Series",
+                "compare_only"
+              ],
+              [
+                "8129-1",
+                "AT-AT Walker",
+                2010,
+                815,
+                8,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "75054-1",
+                "AT-AT",
+                2014,
+                1138,
+                5,
+                "Star Wars",
+                "compare_only"
+              ],
+              [
+                "75083-1",
+                "AT-DP",
+                2015,
+                500,
+                4,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75153-1",
+                "AT-ST Walker",
+                2016,
+                449,
+                3,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75157-1",
+                "Captain Rex's AT-TE",
+                2016,
+                972,
+                5,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75177-1",
+                "First Order Heavy Scout Walker",
+                2017,
+                554,
+                4,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75189-1",
+                "First Order Heavy Assault Walker",
+                2017,
+                1376,
+                5,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75195-1",
+                "Ski Speeder vs First Order Walker Microfighters",
+                2018,
+                216,
+                2,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75201-1",
+                "First Order AT-ST",
+                2018,
+                370,
+                4,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75219-1",
+                "Imperial AT-Hauler",
+                2018,
+                829,
+                5,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75234-1",
+                "AT-AP Walker",
+                2019,
+                689,
+                5,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75254-1",
+                "AT-ST Raider",
+                2019,
+                540,
+                4,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75261-1",
+                "Clone Scout Walker - 20th Anniversary Edition",
+                2019,
+                250,
+                5,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75288-1",
+                "AT-AT",
+                2020,
+                1267,
+                6,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75298-1",
+                "AT-AT vs. Tauntaun Microfighters",
+                2021,
+                205,
+                2,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75313-1",
+                "AT-AT",
+                2021,
+                6785,
+                9,
+                "Ultimate Collector Series",
+                "compare_only"
+              ],
+              [
+                "75322-1",
+                "Hoth AT-ST",
+                2022,
+                586,
+                4,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75337-1",
+                "AT-TE Walker",
+                2022,
+                1082,
+                9,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "40806-1",
+                "Gingerbread AT-AT Walker",
+                2025,
+                697,
+                1,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75424-1",
+                "AT-ST Attack on Endor",
+                2026,
+                347,
+                3,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75440-1",
+                "AT-AT",
+                2026,
+                525,
+                0,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75444-1",
+                "AT-RT Attack",
+                2026,
+                297,
+                3,
+                "Star Wars",
+                "core"
+              ],
+              [
+                "75454-1",
+                "Imperial Remnant AT-AT with INT-4",
+                2026,
+                1453,
+                7,
+                "Star Wars",
+                "core"
+              ]
+            ],
+            "formats": {
+              "연도": "year",
+              "공식 부품 수": "count",
+              "미니피그 수": "count"
+            }
+          }
+        ],
+        "set_nums": [
+          "75288-1",
+          "75440-1"
+        ],
+        "needs_input": null,
+        "warnings": [],
+        "usage": {
+          "router": {
+            "input_tokens": 1280,
+            "output_tokens": 42,
+            "cached": false,
+            "attempts": 2
+          },
+          "rag": {
+            "p1": {
+              "calls": 1,
+              "input_tokens": 538,
+              "output_tokens": 116
+            },
+            "p3": {
+              "calls": 1,
+              "input_tokens": 2913,
+              "output_tokens": 275
+            }
+          }
+        },
+        "timings": {
+          "routing_ms": 17955,
+          "retrieve_ms": 1564,
+          "generate_ms": 2725,
+          "total_ms": 23031
+        },
+        "verification": {
+          "checked": 14,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 23030.94039997086,
+        "cited_card_count": 2,
+        "facts": [
+          {
+            "field": "num_parts:75288-1",
+            "expected": 1267,
+            "status": "correct",
+            "found": [
+              "1267"
+            ]
+          },
+          {
+            "field": "num_parts:75440-1",
+            "expected": 525,
+            "status": "correct",
+            "found": [
+              "525"
+            ]
+          },
+          {
+            "field": "year:75288-1",
+            "expected": 2020,
+            "status": "missing",
+            "found": []
+          },
+          {
+            "field": "year:75440-1",
+            "expected": 2026,
+            "status": "missing",
+            "found": []
+          }
+        ],
+        "says_unknown": true,
+        "citation_count": 2,
+        "citation_mentions": 10
+      }
+    },
+    {
+      "id": "B-06",
+      "question": "레고 75312 Boba Fett's Starship의 보바 펫은 어떤 캐릭터야?",
+      "set_num": "75312-1",
+      "type": "narrative",
+      "facts": [],
+      "note": "서사 + 근거 표시",
+      "started_at": "2026-10-22T07:47:35.987588+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 세트 **75312 Boba Fett’s Starship**에 등장하는 “보바 펫”은 **스타워즈의 용병/현상금 사냥꾼 보바 펫(Boba Fett)** 캐릭터입니다.\n\n다만 한 가지는 확인이 필요해요: 같은 “보바 펫”이라도 **영화/시리즈(예: 오리지널 3부작 시절, 클론전쟁/특정 시점의 버전, 또는 다른 버전의 보바 펫)**에 따라 의상과 외형이 조금씩 달라지는데, 제가 현재 질문만으로는 **75312에 들어있는 보바 펫이 정확히 어떤 시점/버전(예: 제국군 소속 장면인지, 특정 영화 시기인지)**까지 100% 확정하기는 어렵습니다.\n\n원하시면 **보바 펫 미니피겨 사진(앞/옆/등)이나, 어떤 부품(예: 헬멧 색, 갑옷 색, 장착된 무기)이 보이는지**를 알려주시면 그 버전이 어떤 작품의 보바 펫에 해당하는지 더 정확히 짚어드릴게요.",
+        "elapsed_ms": 2271.475200075656,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 66,
+          "output_tokens": 267
+        },
+        "warnings": [],
+        "facts": [],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "narrative",
+        "route_source": "rule:fact_without_attribute",
+        "answer": "레고 75312 **Boba Fett's Starship**에 나오는 보바 펫(Boba Fett)은 **Star Wars** 프랜차이즈의 **장갑을 두른(armored) 현상금 사냥꾼(bounty hunter)** 캐릭터야. [근거 1] [근거 2]\n\n- [근거 1] 이 세트의 미니피그(2) 중 한 명이 **Boba Fett**로 표기됨  \n- [근거 2] 보바 펫은 **헬멧을 벗지 않는(taciturn demeanor and never removing his helmet)** 것으로 묘사됨  \n- [근거 2] 작품 배경에서 **원작 3부작과 프리퀄 3부작 모두에 등장**하는 캐릭터로 설명됨  \n\n제공된 자료에서는 보바 펫의 **정확한 성격/관계(예: 맨달로리안 내 역할 등)** 같은 세부 설정은 추가로 확인되지 않습니다.",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "set_meta",
+            "title": "Boba Fett's Starship",
+            "url": "https://rebrickable.com/sets/75312-1/",
+            "license": "Rebrickable",
+            "text": "세트: Boba Fett's Starship (75312-1)\n별칭: 보바 펫\n연도: 2021 · 테마: Star Wars · 공식 부품 수: 593개\n미니피그(2): Boba Fett, The Mandalorian / Din Djarin\n관련: Boba Fett",
+            "item_id": "75312-1",
+            "doc_id": "75312-1",
+            "chunk_id": "75312-1",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          },
+          {
+            "n": 2,
+            "source_type": "wikipedia",
+            "title": "Boba Fett",
+            "url": "https://en.wikipedia.org/wiki/Boba_Fett",
+            "license": "CC BY-SA 4.0",
+            "text": "[Boba Fett]\nBoba Fett ( BO(H)B-ə FET) is a character in the Star Wars franchise. First appearing in the Star Wars Holiday Special (1978), where he was voiced by Don Francks, he is an armored bounty hunter featured in both the original and prequel film trilogies. In the original trilogy, the character is a supporting antagonist and was mainly portrayed by Jeremy Bulloch and voiced by Jason Wingreen. Notable for his taciturn demeanor and for never removing his helmet, Fett appears in both The Empire Strikes Back (1980), employed by the Galactic Empire, and Return of the Jedi (1983), serving the crime lord Jabba the Hutt. While seemingly killed in Return of the Jedi after falling into a sarlacc, he has since appeared in Star Wars media set after the film, confirming his survival. Daniel Logan portrays a preteen Boba in the prequel film Attack of the Clones (2002), which reveals the character's origins as the genetic clone and adoptive son of Jango Fett, a bounty hunter who mentors Boba to follow in",
+            "item_id": "75312-1",
+            "doc_id": "wp-en:50786",
+            "chunk_id": "entity:wp-en:50786:0000",
+            "score": 0.8753308653831482,
+            "lang": "en",
+            "entity_kind": "character",
+            "section_path": ""
+          }
+        ],
+        "tables": [],
+        "set_nums": [
+          "75312-1"
+        ],
+        "needs_input": null,
+        "warnings": [],
+        "usage": {
+          "router": {
+            "input_tokens": 1288,
+            "output_tokens": 38,
+            "cached": false,
+            "attempts": 1
+          },
+          "rag": {
+            "p1": {
+              "calls": 1,
+              "input_tokens": 546,
+              "output_tokens": 98
+            },
+            "p3": {
+              "calls": 1,
+              "input_tokens": 1682,
+              "output_tokens": 228
+            }
+          }
+        },
+        "timings": {
+          "routing_ms": 950,
+          "retrieve_ms": 2665,
+          "generate_ms": 18757,
+          "total_ms": 22672
+        },
+        "verification": {
+          "checked": 1,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 22671.72240000218,
+        "cited_card_count": 2,
+        "facts": [],
+        "says_unknown": true,
+        "citation_count": 2,
+        "citation_mentions": 5
+      }
+    },
+    {
+      "id": "B-07",
+      "question": "레고 75423 레드 파이브 X-윙은 영화에서 어떤 전투에서 활약했어?",
+      "set_num": "75423-1",
+      "type": "narrative",
+      "facts": [],
+      "note": "서사 + 근거 표시",
+      "started_at": "2026-10-22T07:48:00.931475+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "레고 세트 **75423 레드 파이브 X-윙**은 영화 **스타워즈: 에피소드 4 - 새로운 희망**에서 **레드 파이브(Red Five)**가 탑승한 X-윙을 바탕으로 만든 것으로 알려져 있어요.\n\n이 레드 파이브가 대표적으로 활약한 전투는 **엔도 전투(Endor 전투)**가 아니라, **죽음의 별을 파괴하기 위한 요원/전투 장면 중에서도 “레벨러 업” 혹은 “트렌치(트렌치 런)” 같은 구체 장면이 아니라**—정확히는 **죽음의 별 슈퍼레이저 진입 후, 트렌치 런을 진행하는 X-윙 편대 전투**로 묶어서 이해하는 경우가 많습니다.\n\n다만, 사용자가 “어떤 전투”를 딱 한 가지로 지칭해 달라고 하신 만큼 정확도를 위해 확인이 필요한데요:  \n제가 지금 당장 **75423이 특정 ‘한 전투’(예: 특정 코드명/챕터)만** 콕 집어 대응된다고 영화 장면을 100% 단정해서 말하기는 어려워요. (레드 파이브는 여러 전투 장면에서 등장하는데, 세트가 어떤 컷을 기준으로 했는지까지는 자료 확인이 필요합니다.)\n\n원하시면 제가 정확히 맞춰드릴 수 있게,\n- 혹시 **세트 박스/설명서에 나온 장면 문구**(예: “트렌치 런”, “디스커버리” 등)나\n- 레고에 해당하는 **인게임/영화 장면 캡처(또는 링크)**  \n를 알려주세요. 그러면 그에 맞춰 **영화 속 어떤 전투인지**를 확정해서 답해드릴게요.",
+        "elapsed_ms": 6444.337600027211,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 69,
+          "output_tokens": 419
+        },
+        "warnings": [],
+        "facts": [],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "narrative",
+        "route_source": "llm",
+        "answer": "레고 75423-1 **Luke’s Red Five X-wing**(Luke Skywalker가 탑승한 X-윙)은 영화에서 **데스 스타를 공격해 파괴하는 전투**에서 활약했어. [근거 4]\n\n- **A New Hope(에피소드 4)** 이후, 루크가 이 전투기를 타고 **데스 스타(Death Star)를 공격**해 **데스 스타를 파괴**했다고 설명돼. [근거 4]  \n- 같은 자료에서 **야빈 전투(Yavin)**에도 많은 X-윙들이 사용되었다고 언급돼. [근거 4]  \n확인된 세트 정보(75423-1):\n- 세트명: **Luke’s Red Five X-wing**, 별칭: **X-wing**, 관련: **Luke Skywalker** [근거 1]",
+        "cards": [
+          {
+            "n": 1,
+            "source_type": "set_meta",
+            "title": "Luke's Red Five X-wing",
+            "url": "https://rebrickable.com/sets/75423-1/",
+            "license": "Rebrickable",
+            "text": "세트: Luke's Red Five X-wing (75423-1)\n별칭: X-윙, 루크 스카이워커\n검색어: 엑스윙\n연도: 2026 · 테마: Star Wars · 공식 부품 수: 581개\n미니피그(5): Luke Skywalker, Princess Leia, R2-D2 (SMART Play), Rebel Crew, Stormtrooper\n관련: X-wing fighter, Luke Skywalker",
+            "item_id": "75423-1",
+            "doc_id": "75423-1",
+            "chunk_id": "75423-1",
+            "score": null,
+            "lang": "ko",
+            "entity_kind": "",
+            "section_path": ""
+          },
+          {
+            "n": 4,
+            "source_type": "wikipedia",
+            "title": "X-윙",
+            "url": "https://ko.wikipedia.org/wiki/X-%EC%9C%99",
+            "license": "CC BY-SA 4.0",
+            "text": "[X-윙 › 개요 › 에피소드 4 | 개요 › 에피소드 5 | 개요 › 에피소드 6]\n루크가 반란군에 들어간 후 루크는 이 전투기를 타고 데스 스타를 공격한다. 그리고 데스스타 중심핵에 양자어뢰를 쏘아 데스스타의 중앙 컴퓨터를 연쇄반응을 만들며 데스스타를 파괴시킨다. 그리고 루크가 탑승한 전투기 이외에도 많은 X-윙 전투기가 야빈 전투에 사용되었다.\n\n호스 전투에서 패배한 저항군은 각자 흩어지고 요다를 만나러 대고바계로 가던 루크는 정글에 불시착해 루크의 X-윙은 물에 빠진다. 루크의 제다이 수련 중 요다는 이 전투기를 꺼내주고, 루크는 베스핀의 클라우드 시티로 향한다.\n\n루크는 이 전투기를 타고 요다를 만난 뒤 반란군 연합 회의실로 온다. 그리고 많은 X-윙들은 랜도 캘리시언의 지휘 아래 데스스타2 파괴에 힘쓴다. 엔도 행성의 발전소가 파괴되고 데스스타의 방어막이 뚫리자 밀레니엄 팰콘을 엄호하며 데스스타2를 파괴시키는 것을 돕는다.",
+            "item_id": "75423-1",
+            "doc_id": "wp-ko:898890",
+            "chunk_id": "entity:wp-ko:898890:0001",
+            "score": 1.1486152410507202,
+            "lang": "ko",
+            "entity_kind": "vehicle",
+            "section_path": "개요 › 에피소드 4 | 개요 › 에피소드 5 | 개요 › 에피소드 6"
+          }
+        ],
+        "tables": [],
+        "set_nums": [
+          "75423-1"
+        ],
+        "needs_input": null,
+        "warnings": [
+          "검증되지 않은 수치를 포함한 문장 1개를 제외했습니다"
+        ],
+        "usage": {
+          "router": {
+            "input_tokens": 1291,
+            "output_tokens": 49,
+            "cached": false,
+            "attempts": 1
+          },
+          "rag": {
+            "p1": {
+              "calls": 2,
+              "input_tokens": 1098,
+              "output_tokens": 242
+            },
+            "p2": {
+              "calls": 2,
+              "input_tokens": 439,
+              "output_tokens": 10
+            },
+            "p3": {
+              "calls": 1,
+              "input_tokens": 2071,
+              "output_tokens": 271
+            }
+          }
+        },
+        "timings": {
+          "routing_ms": 934,
+          "retrieve_ms": 27219,
+          "generate_ms": 2247,
+          "total_ms": 30712
+        },
+        "verification": {
+          "checked": 4,
+          "removed": 1,
+          "items": [
+            {
+              "value": "1",
+              "sentence_index": 3
+            }
+          ]
+        },
+        "elapsed_ms": 30711.95969998371,
+        "cited_card_count": 2,
+        "facts": [],
+        "says_unknown": false,
+        "citation_count": 2,
+        "citation_mentions": 4
+      }
+    },
+    {
+      "id": "B-08",
+      "question": "레고 75192 밀레니엄 팔콘의 한국 정가는 얼마야?",
+      "set_num": "75192-1",
+      "type": "unanswerable",
+      "facts": [],
+      "note": "가격은 수집하지 않음(LEGO.com 미수집) → 확인되지 않음이 정답",
+      "started_at": "2026-10-22T07:48:38.088617+00:00",
+      "model": "gpt-5.4-nano",
+      "settings_hash": "0181efe22f411a9df4478b0a583004bb792cbfdd3e734fc0d5a4cdcb667dcf77",
+      "solo_prompt_version": "solo-v1",
+      "A": {
+        "answer": "제가 지금 실시간으로 LEGO(레고) 75192 **밀레니엄 팔콘**의 **한국 공식 정가(판매가)**를 확인할 수는 없어요.  \n따라서 **확실한 숫자**로 답하긴 어렵습니다.\n\n대신 정확히 알려면 아래 중 한 가지를 확인해 주세요:\n- 레고 코리아(공식몰/공식 판매처) 제품 페이지의 **정가**\n- 예전 구매 영수증/구매처 페이지에 표시된 **판매가**\n- “75192”와 함께 **판매처명 + 정가/판매가**를 검색해서 확인\n\n원하시면, 사용하신 **구매처(예: 레고 공식몰, 쿠팡, 옥션 등)** 또는 제품 링크를 주면, 그 정보 기준으로 정가가 얼마인지 같이 확인해 드릴게요.",
+        "elapsed_ms": 2429.5111000537872,
+        "usage": {
+          "calls": 1,
+          "input_tokens": 61,
+          "output_tokens": 191
+        },
+        "warnings": [],
+        "facts": [],
+        "says_unknown": false,
+        "citation_count": 0,
+        "citation_mentions": 0
+      },
+      "B": {
+        "route": "fact",
+        "route_source": "rule:unsupported_attr",
+        "answer": "이 정보는 수집하지 않아 확인되지 않습니다. 가격과 할인 정보는 수집하지 않습니다.\nLEGO.com에서 해당 제품 정보를 확인하세요: https://www.lego.com/ko-kr",
+        "cards": [],
+        "tables": [],
+        "set_nums": [],
+        "needs_input": null,
+        "warnings": [
+          "답변에 인용된 근거가 없습니다"
+        ],
+        "usage": {
+          "router": {
+            "input_tokens": 1280,
+            "output_tokens": 43,
+            "cached": false,
+            "attempts": 1
+          }
+        },
+        "timings": {
+          "routing_ms": 19409,
+          "total_ms": 19418
+        },
+        "verification": {
+          "checked": 0,
+          "removed": 0,
+          "items": []
+        },
+        "elapsed_ms": 19418.222300009802,
+        "cited_card_count": 0,
+        "facts": [],
+        "says_unknown": true,
+        "citation_count": 0,
+        "citation_mentions": 0
+      }
+    }
+  ]
+}

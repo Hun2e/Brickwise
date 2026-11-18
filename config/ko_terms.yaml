@@ -1,0 +1,34 @@
+# 한국어 상품·형태 용어 → 영어 세트명 용어 (PM 관리 데이터, T-010 피드백 1차)
+# - 조건 탐색(T-010)의 추출 조건 검증에 쓴다. 질문에 왼쪽 용어가 있으면 오른쪽 영어 단어를
+#   name_keywords / exclude_keywords로 받아들인다.
+# - 기체·캐릭터 이름은 ko_aliases(T-005)가 담당한다. 여기에는 상품 형태·일반 명사만 둔다.
+# - 영어 단어는 실제 세트명(sets.name)에 쓰이는 표기다 (2026-10-22 범위 378세트 이름에서 확인).
+
+version: 1
+terms:
+  배틀팩: ["Battle Pack"]
+  배틀 팩: ["Battle Pack"]
+  헬멧: ["Helmet"]
+  마이크로파이터: ["Microfighter", "Microfighters"]
+  마이크로 파이터: ["Microfighter", "Microfighters"]
+  디오라마: ["Diorama"]
+  흉상: ["Bust"]
+  메크: ["Mech"]
+  셔틀: ["Shuttle"]
+  스피더: ["Speeder"]
+  탱크: ["Tank"]
+  워커: ["Walker"]
+  건쉽: ["Gunship"]
+  건십: ["Gunship"]
+  스타파이터: ["Starfighter"]
+  인터셉터: ["Interceptor"]
+  수송선: ["Transport"]
+  트랜스포트: ["Transport"]
+  결투: ["Duel"]
+  미니빌드: ["Mini-Build"]
+  미니 빌드: ["Mini-Build"]
+  20주년: ["20th Anniversary"]
+  # 기체 약칭 (ko_aliases의 정식명과 별개로, 세트명 표기와 바로 대응)
+  엑스윙: ["X-wing"]
+  타이: ["TIE"]
+  에이티에이티: ["AT-AT"]

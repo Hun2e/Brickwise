@@ -1,0 +1,72 @@
+{
+ "request": {
+  "lang": "en",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "list": "search",
+   "srsearch": "Lego Star Wars",
+   "srlimit": 5
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "continue": {
+   "sroffset": 5,
+   "continue": "-||"
+  },
+  "query": {
+   "searchinfo": {
+    "totalhits": 3434
+   },
+   "search": [
+    {
+     "ns": 0,
+     "title": "Lego Star Wars",
+     "pageid": 7049188,
+     "size": 98353,
+     "wordcount": 8133,
+     "snippet": "<span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> (stylized in all caps) is a <span class=\"searchmatch\">Lego</span> theme based on the <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> media franchise and fictional universe created by George Lucas. As of June 2026[update]",
+     "timestamp": "2026-09-29T19:36:11Z"
+    },
+    {
+     "ns": 0,
+     "title": "Lego Star Wars: The Video Game",
+     "pageid": 1728368,
+     "size": 46075,
+     "wordcount": 4431,
+     "snippet": "<span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span>: The Video Game (sometimes simply called <span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span>) is a 2005 action-adventure video game based on the <span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> theme of Lego",
+     "timestamp": "2026-09-29T19:26:34Z"
+    },
+    {
+     "ns": 0,
+     "title": "Lego Star Wars: The Complete Saga",
+     "pageid": 11089991,
+     "size": 33554,
+     "wordcount": 2861,
+     "snippet": "<span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span>: The Complete Saga is a 2007 <span class=\"searchmatch\">Lego</span>-themed action-adventure video game based on the <span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> line of construction toys. The game was",
+     "timestamp": "2026-09-09T02:04:45Z"
+    },
+    {
+     "ns": 0,
+     "title": "Lego Star Wars III: The Clone Wars",
+     "pageid": 26120110,
+     "size": 21219,
+     "wordcount": 1646,
+     "snippet": "<span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> III: The Clone <span class=\"searchmatch\">Wars</span> is a <span class=\"searchmatch\">Lego</span>-themed action-adventure video game developed by Traveller&#039;s Tales and published by LucasArts in March 2011",
+     "timestamp": "2026-09-27T01:49:22Z"
+    },
+    {
+     "ns": 0,
+     "title": "Lego Star Wars II: The Original Trilogy",
+     "pageid": 4039865,
+     "size": 70636,
+     "wordcount": 5805,
+     "snippet": "<span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span>: The Video Game (2005). Part of the <span class=\"searchmatch\">Lego</span> <span class=\"searchmatch\">Star</span> <span class=\"searchmatch\">Wars</span> series, it is based on George Lucas&#039; movie franchise of the same name and The <span class=\"searchmatch\">Lego</span> Group&#039;s",
+     "timestamp": "2026-10-18T10:14:50Z"
+    }
+   ]
+  }
+ }
+}

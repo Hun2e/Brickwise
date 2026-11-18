@@ -1,0 +1,17 @@
+name: t017
+policy:
+  min_hit_gain: 2
+  max_latency_increase: 0.20
+  languages: [ko, en]
+E1:
+  search_type: [similarity]
+  similarity_fetch_k: [20, 40, 80]
+E2:
+  search_type: [mmr]
+  mmr_fetch_k: [20, 40]
+  mmr_lambda: [0.3, 0.5, 0.7]
+  mmr_apply_caps: [true, false]
+E3:
+  query_mode: [expanded, question, dual]
+E4:
+  top_k: [3, 5, 8]

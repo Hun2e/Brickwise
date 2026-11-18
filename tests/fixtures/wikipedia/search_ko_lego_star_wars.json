@@ -1,0 +1,72 @@
+{
+ "request": {
+  "lang": "ko",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "list": "search",
+   "srsearch": "레고 스타워즈",
+   "srlimit": 5
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "continue": {
+   "sroffset": 5,
+   "continue": "-||"
+  },
+  "query": {
+   "searchinfo": {
+    "totalhits": 101
+   },
+   "search": [
+    {
+     "ns": 0,
+     "title": "레고 스타워즈",
+     "pageid": 702296,
+     "size": 10718,
+     "wordcount": 1097,
+     "snippet": "비디오 게임에 대해서는 <span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span> (비디오 게임) 문서를 참고하십시오. <span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>(Lego Star Wars)는 <span class=\"searchmatch\">레고</span>사에서 제작한 스타 워즈 시리즈이다. 높은 품질로 <span class=\"searchmatch\">레고</span>마니아들에게는 사랑받는 <span class=\"searchmatch\">레고</span> 가운데 하나이다. 매년 신제품을 내며, 최근에는 빌딩 더 갤럭시(building",
+     "timestamp": "2026-03-15T07:34:19Z"
+    },
+    {
+     "ns": 0,
+     "title": "레고 스타워즈 (비디오 게임)",
+     "pageid": 3063743,
+     "size": 10335,
+     "wordcount": 627,
+     "snippet": "<span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>(Lego Star Wars: The Video Game)은 <span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>를 기반으로 한 <span class=\"searchmatch\">레고</span> 테마 액션 어드벤처 게임으로 트래블러스 테일스가 제작한 첫번째 <span class=\"searchmatch\">레고</span> 비디오 게임이다. 2005년 3월 29일에 첫 출시됐으며, 트래블러스 테일스가 엑스박스, 마이크로소프트",
+     "timestamp": "2026-03-15T08:35:28Z"
+    },
+    {
+     "ns": 0,
+     "title": "레고 스타워즈: 포스 어웨이큰",
+     "pageid": 3210221,
+     "size": 6506,
+     "wordcount": 416,
+     "snippet": "<span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>: 포스 어웨이큰(Lego Star Wars: The Force Awakens, <span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>: 깨어난 포스)은 TT 퓨전이 개발하고 <span class=\"searchmatch\">레고</span>를 주제로 하는 2016년 액션 어드벤처 게임이다. TT 게임의 <span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span> 비디오 게임 시리즈 중 다섯 번째 게임이며",
+     "timestamp": "2025-05-06T14:11:57Z"
+    },
+    {
+     "ns": 0,
+     "title": "레고",
+     "pageid": 48489,
+     "size": 41149,
+     "wordcount": 3576,
+     "snippet": "다른 뜻에 대해서는 <span class=\"searchmatch\">레고</span> (동음이의) 문서를 참고하십시오. <span class=\"searchmatch\">레고</span>(영어: Lego)는 덴마크의 <span class=\"searchmatch\">레고</span> 그룹에서 생산하는 블럭제품으로서, 다양한 종류의 블럭을 조합해 사용자가 원하는 것을 만들 수 있는 제품 또는 제품류 및 상표를 일컫는 말이다. <span class=\"searchmatch\">레고</span> 그룹은 1932년 덴마크",
+     "timestamp": "2026-10-11T07:31:20Z"
+    },
+    {
+     "ns": 0,
+     "title": "에릭 바우자",
+     "pageid": 1605118,
+     "size": 2892,
+     "wordcount": 52,
+     "snippet": "에릭 바우자(영어: Eric Bauza, 1979년 12월 7일 ~ )는 캐나다의 성우이다. 애니메이션 《<span class=\"searchmatch\">레고</span> <span class=\"searchmatch\">스타워즈</span>》 시리즈의 주인공 루크 스카이워커 역, 마블 코믹스 원작 애니메이션의 아마데우스 조 역 등을 전담한다. 위키미디어 공용에 에릭 바우자 관련 미디어 분류가",
+     "timestamp": "2025-04-24T18:17:12Z"
+    }
+   ]
+  }
+ }
+}

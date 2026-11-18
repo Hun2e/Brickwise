@@ -1,0 +1,10 @@
+attributes:
+  - keywords: ["가격", "정가", "할인", "얼마야", "얼마인가", "얼마예", "price", "msrp"]
+    reason: "가격과 할인 정보는 수집하지 않습니다."
+  - keywords: ["재고", "구매처", "판매처", "어디서 사", "어디서 구매", "stock"]
+    reason: "실시간 재고와 판매처 정보는 수집하지 않습니다."
+  - keywords: ["설명서", "instructions", "매뉴얼"]
+    reason: "공식 조립 설명서는 수집·색인하지 않습니다."
+  - keywords: ["무게", "크기", "가로", "세로", "높이", "weight", "dimensions"]
+    reason: "제품 치수와 무게 정보는 수집하지 않습니다."
+alternative: "LEGO.com에서 해당 제품 정보를 확인하세요: https://www.lego.com/ko-kr"

@@ -1,0 +1,968 @@
+{
+  "schema_version": 1,
+  "experiment": "routing",
+  "created_at": "2026-10-23T01:20:19.905270+00:00",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": true,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "unsupported_attrs": "config/unsupported_attrs.yaml",
+      "collection_intents": "config/collection_intents.yaml",
+      "dialogue_cues": "config/dialogue_cues.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "error_log": "logs/eval_error.log",
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "similarity_fetch_k": 20,
+      "query_mode": "question",
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "mmr",
+      "mmr_fetch_k": 40,
+      "mmr_lambda": 0.7,
+      "mmr_apply_caps": false,
+      "mmr_caps": "none",
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_qty": 99,
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_intro_chars": 500,
+      "domain_keywords": [
+        "star wars",
+        "스타워즈",
+        "스타 워즈",
+        "jedi",
+        "제다이",
+        "sith",
+        "시스 로드",
+        "시스 군주",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "레고",
+        "skywalker",
+        "스카이워커",
+        "death star",
+        "데스 스타",
+        "millennium falcon",
+        "밀레니엄 팔콘",
+        "republic attack gunship",
+        "boba fett",
+        "보바 펫",
+        "darth vader",
+        "다스 베이더"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v4",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "search_cues": [
+        "찾아",
+        "검색",
+        "보여줘",
+        "알려줘 세트",
+        "어떤 세트",
+        "세트 목록",
+        "있는 세트",
+        "들어 있는",
+        "들어있는"
+      ],
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "fact_cues": [
+        "부품",
+        "피스",
+        "몇 개",
+        "개수",
+        "연도",
+        "언제",
+        "출시",
+        "나왔",
+        "미니피그",
+        "미니피규어",
+        "피규어",
+        "피겨",
+        "테마",
+        "서브테마",
+        "pieces",
+        "parts",
+        "minifig",
+        "figure",
+        "year",
+        "released",
+        "theme"
+      ],
+      "recommendation_refs": [
+        "그 기체",
+        "그거",
+        "그 세트"
+      ],
+      "recommendation_cues": [
+        "추천",
+        "만들 수 있는"
+      ],
+      "ignore_color_cues": [
+        "색깔 상관없이",
+        "색상 상관없이",
+        "색깔 무시",
+        "색상 무시",
+        "색깔은 상관없",
+        "색상은 상관없"
+      ]
+    }
+  },
+  "settings_hash": "93210d4611b74a8c592b67e7f63d71789076be1aa33255705a2c228cc7c88d58",
+  "dataset_hash": "fb0f8653f7bcc467ed0cc2ce0588fd0b671d6f28eae5d33cbc32e4434950d5bd",
+  "rows": [
+    {
+      "id": "route-01",
+      "question": "이 세트 부품 몇 개야?",
+      "selected_set": "75257-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [],
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-02",
+      "question": "그거 언제 나왔어?",
+      "selected_set": "75257-1",
+      "history": [
+        {
+          "question": "이 세트 부품 수는?",
+          "route": "fact",
+          "answer": "DB에서 부품 수를 조회했습니다."
+        }
+      ],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [],
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-03",
+      "question": "75301의 미니피그는 누가 들어 있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [],
+      "predicted_route": "fact",
+      "llm_route": "fact",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-04",
+      "question": "2018년 이후 나온 500부품 이하 세트 찾아줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "filter",
+      "tags": [],
+      "predicted_route": "filter",
+      "llm_route": "filter",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-05",
+      "question": "UCS 중 2010년 이전 제품 보여줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "filter",
+      "tags": [],
+      "predicted_route": "filter",
+      "llm_route": "filter",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-06",
+      "question": "미니피그 없는 작은 지상 탈것 찾아줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "filter",
+      "tags": [],
+      "predicted_route": "filter",
+      "llm_route": "filter",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-07",
+      "question": "최신순으로 X-wing 세트 보여줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "filter",
+      "tags": [],
+      "predicted_route": "filter",
+      "llm_route": "filter",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-08",
+      "question": "75257과 75375의 공통 부품은?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "set_ops",
+      "tags": [],
+      "predicted_route": "set_ops",
+      "llm_route": "set_ops",
+      "route_source": "rule:two_sets_parts",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-09",
+      "question": "이 세트와 75301에서 겹치는 부품 알려줘",
+      "selected_set": "75300-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "set_ops",
+      "tags": [],
+      "predicted_route": "set_ops",
+      "llm_route": "set_ops",
+      "route_source": "rule:two_sets_parts",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-10",
+      "question": "75300과 75301에 같은 부품이 얼마나 있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "set_ops",
+      "tags": [],
+      "predicted_route": "set_ops",
+      "llm_route": "set_ops",
+      "route_source": "rule:two_sets_parts",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-11",
+      "question": "이 기체의 역사와 배경을 알려줘",
+      "selected_set": "75257-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [],
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-12",
+      "question": "그거 왜 유명해?",
+      "selected_set": "75257-1",
+      "history": [
+        {
+          "question": "팔콘은 어떤 기체야?",
+          "route": "narrative",
+          "answer": "밀레니엄 팔콘에 대한 근거를 확인했습니다."
+        }
+      ],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [],
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-13",
+      "question": "75301의 기체가 작품에서 어떤 역할을 해?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [],
+      "predicted_route": "narrative",
+      "llm_route": "narrative",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-14",
+      "question": "밀레니엄 팔콘이 연도별로 어떻게 달라졌어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [],
+      "predicted_route": "compare",
+      "llm_route": "compare",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-15",
+      "question": "이 세트랑 75375는 뭐가 달라?",
+      "selected_set": "75257-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [],
+      "predicted_route": "compare",
+      "llm_route": "compare",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-16",
+      "question": "X-wing 판본의 변천을 비교해줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [],
+      "predicted_route": "compare",
+      "llm_route": "compare",
+      "route_source": "llm",
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-17",
+      "question": "이 기체의 다른 판본은 차이가 뭐야?",
+      "selected_set": "75301-1",
+      "history": [
+        {
+          "question": "이 세트는 언제 나왔어?",
+          "route": "fact",
+          "answer": "출시 연도를 확인했습니다."
+        }
+      ],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [],
+      "predicted_route": "compare",
+      "llm_route": "compare",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-18",
+      "question": "내 세트로 만들 수 있는 세트 추천해줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "predicted_route": "build",
+      "llm_route": "build",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-19",
+      "question": "내 부품으로 이 세트 만들려면 뭐가 부족해?",
+      "selected_set": "75301-1",
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75300-1",
+          2
+        ]
+      ],
+      "predicted_route": "build",
+      "llm_route": "build",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-20",
+      "question": "75375를 만들려면 부족한 부품이 뭐야?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "build",
+      "tags": [],
+      "expected_rule": "no_collection",
+      "predicted_route": "build",
+      "llm_route": "build",
+      "route_source": "rule:no_collection",
+      "needs_input": "보유 세트 또는 부품을 컬렉션에 먼저 등록하세요.",
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-21",
+      "question": "내 부품으로 부족 수량이 가장 적은 세트와 그 특징을 알려줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "predicted_route": "build_archive",
+      "llm_route": "build_archive",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-22",
+      "question": "내 세트로 부족 20개 이하로 만들 수 있는 것 중 가장 오래된 건? 특징도",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75257-1",
+          1
+        ],
+        [
+          "75375-1",
+          1
+        ]
+      ],
+      "predicted_route": "build_archive",
+      "llm_route": "build_archive",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-23",
+      "question": "내 부품으로 만들 후보 중 커버리지가 가장 높은 기체의 배경 설명해줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75300-1",
+          1
+        ]
+      ],
+      "predicted_route": "build_archive",
+      "llm_route": "build_archive",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    },
+    {
+      "id": "route-24",
+      "question": "내 세트로 만들 수 있는 것 중 부품 수가 가장 적은 세트를 골라 역사를 알려줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [],
+      "collection_sets": [
+        [
+          "75301-1",
+          1
+        ]
+      ],
+      "predicted_route": "build_archive",
+      "llm_route": "build_archive",
+      "route_source": "llm",
+      "needs_input": null,
+      "usage": {
+        "router": {
+          "cached": true
+        }
+      },
+      "correct": true
+    }
+  ],
+  "summary": {
+    "count": 24,
+    "correct": 24,
+    "accuracy": 1.0,
+    "confusion": {
+      "build": {
+        "build": 3,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "filter": 0,
+        "narrative": 0,
+        "set_ops": 0
+      },
+      "build_archive": {
+        "build": 0,
+        "build_archive": 4,
+        "compare": 0,
+        "fact": 0,
+        "filter": 0,
+        "narrative": 0,
+        "set_ops": 0
+      },
+      "compare": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 4,
+        "fact": 0,
+        "filter": 0,
+        "narrative": 0,
+        "set_ops": 0
+      },
+      "fact": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 3,
+        "filter": 0,
+        "narrative": 0,
+        "set_ops": 0
+      },
+      "filter": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "filter": 4,
+        "narrative": 0,
+        "set_ops": 0
+      },
+      "narrative": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "filter": 0,
+        "narrative": 3,
+        "set_ops": 0
+      },
+      "set_ops": {
+        "build": 0,
+        "build_archive": 0,
+        "compare": 0,
+        "fact": 0,
+        "filter": 0,
+        "narrative": 0,
+        "set_ops": 3
+      }
+    },
+    "incorrect_ids": []
+  }
+}

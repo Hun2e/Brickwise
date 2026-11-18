@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>LEGO Archive &amp; Build Planner</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">본문으로 이동</a>
+  <header class="header">
+    <button id="sidebar-toggle" aria-label="메뉴 열기" aria-controls="sidebar" aria-expanded="false">☰</button>
+    <h1>LEGO Archive &amp; Build Planner</h1>
+    <button id="new-conversation" disabled>새 대화</button>
+  </header>
+  <div id="status" role="status" hidden><strong id="status-badge">상태 확인 중</strong><div id="status-messages"></div></div>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <div id="drawer-backdrop" hidden></div>
+  <aside id="sidebar" role="dialog" aria-modal="true" aria-label="대화와 내가 가진 레고" hidden>
+    <div class="drawer-heading"><h2>메뉴</h2><button id="sidebar-close" aria-label="메뉴 닫기">✕</button></div>
+    <h2>대화 기록</h2><ul id="conversations" class="plain-list"></ul>
+    <button id="clear-conversation" disabled>이 대화 지우기</button>
+    <details id="collection-editor"><summary>내가 가진 레고</summary>
+      <form id="collection-form"><fieldset id="collection-fields" disabled>
+        <legend class="sr-only">내가 가진 레고 편집</legend>
+        <p class="muted">수량을 고치거나 세트를 추가한 뒤 저장하세요.</p>
+        <div class="table-scroll"><table><thead><tr><th scope="col">세트</th><th scope="col">수량</th><th scope="col">편집</th></tr></thead><tbody id="collection-rows"></tbody></table></div>
+        <div class="actions"><button id="add-set" type="button" aria-controls="set-picker" aria-expanded="false">세트 추가</button><button type="submit" class="primary">목록 저장</button></div>
+        <div id="set-picker" hidden>
+          <label for="set-search">번호 · 이름 · 별칭 검색</label>
+          <input id="set-search" type="search" placeholder="예: 팔콘, X-wing" autocomplete="off">
+          <p id="set-count" class="muted" aria-live="polite"></p><ul id="set-results" class="plain-list"></ul>
+        </div>
+      </fieldset></form>
+      <p id="collection-message" role="status"></p>
+      <button id="reload-collection" data-navigation="true">목록 다시 불러오기</button>
+    </details>
+    <h2>이 세트 이야기 기록</h2><div id="history-content"></div>
+    <p class="muted fan-note">LEGO 그룹과 무관한 비공식 팬 프로젝트입니다.</p>
+  </aside>
+  <main id="workspace" tabindex="-1">
+    <div class="conversation-column">
+      <div id="turns" aria-label="대화 기록"></div>
+      <p id="pending-message" role="status"></p><div id="pending-choices" class="actions"></div>
+      <button id="retry" hidden>같은 요청 다시 시도</button>
+      <div id="conversation-end"></div>
+    </div>
+  </main>
+  <footer id="composer">
+    <div class="composer-inner">
+      <div id="subject-bar" aria-label="지금 이야기 중" hidden>
+        <span id="subject-label"></span><button id="clear-subject" data-navigation="true" aria-label="이 세트 이야기 끝내기">✕</button>
+      </div>
+      <form id="chat-form">
+        <label for="question" class="sr-only">질문</label>
+        <div class="input-row"><textarea id="question" rows="2" required disabled aria-describedby="chat-hint" placeholder="레고에 대해 무엇이든 물어보세요…"></textarea><button id="send" class="primary" disabled>보내기</button></div>
+        <p id="chat-hint" class="muted" aria-live="polite">상태 확인 중입니다.</p>
+      </form>
+    </div>
+  </footer>
+</body>
+</html>

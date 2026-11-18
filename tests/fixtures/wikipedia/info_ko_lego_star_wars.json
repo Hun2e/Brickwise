@@ -1,0 +1,40 @@
+{
+ "request": {
+  "lang": "ko",
+  "params": {
+   "format": "json",
+   "formatversion": "2",
+   "action": "query",
+   "prop": "info|revisions",
+   "rvprop": "ids|timestamp",
+   "titles": "레고 스타워즈",
+   "redirects": 1
+  }
+ },
+ "response": {
+  "batchcomplete": true,
+  "query": {
+   "pages": [
+    {
+     "pageid": 702296,
+     "ns": 0,
+     "title": "레고 스타워즈",
+     "contentmodel": "wikitext",
+     "pagelanguage": "ko",
+     "pagelanguagehtmlcode": "ko",
+     "pagelanguagedir": "ltr",
+     "touched": "2026-08-19T01:12:58Z",
+     "lastrevid": 41491095,
+     "length": 10718,
+     "revisions": [
+      {
+       "revid": 41491095,
+       "parentid": 40139809,
+       "timestamp": "2026-03-15T07:34:19Z"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

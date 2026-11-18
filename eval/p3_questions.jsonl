@@ -1,0 +1,13 @@
+{"id":"Q1","selected_set":"75257-1","question":"이 기체는 누가 디자인했어?","history":[]}
+{"id":"Q2","selected_set":"75257-1","question":"Who designed this ship?","history":[]}
+{"id":"Q3","selected_set":"75301-1","question":"어떤 전투에 참여?","history":[]}
+{"id":"Q4","selected_set":"75076-1","question":"건쉽 영화 속 역할","history":[]}
+{"id":"Q5","selected_set":"75357-1","question":"고스트호 작품","history":[]}
+{"id":"Q6","selected_set":"75283-1","question":"AAT 진영","history":[]}
+{"id":"Q7","selected_set":"75192-1","question":"부품 수","history":[]}
+{"id":"Q8","selected_set":"75257-1","question":"미니피그","history":[]}
+{"id":"Q9","selected_set":"75257-1","question":"최고 속도","history":[]}
+{"id":"Q10","selected_set":"75301-1","question":"그 전투는 어느 행성 근처?","history":[{"question":"어떤 전투에 참여?","answer":"Battle of Yavin에 참여했습니다."}]}
+{"id":"S1","route":"narrative","selected_set":"75192-1","question":"75192 밀레니엄 팔콘은 어떤 특징이 있어?","history":[]}
+{"id":"S2","route":"compare","selected_set":"75257-1","question":"밀레니엄 팔콘이 연도별로 어떻게 달라졌어?","history":[]}
+{"id":"S5","route":"build_archive","selected_set":null,"question":"내 세트로 부족 60개 이하로 만들 수 있는 것 중 가장 오래된 건? 특징도","history":[],"collection_sets":[["75192-1",1],["75301-1",1]]}

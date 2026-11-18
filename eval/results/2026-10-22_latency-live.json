@@ -1,0 +1,2712 @@
+{
+  "schema_version": 1,
+  "experiment": "latency",
+  "created_at": "2026-10-22T05:31:06.276907+00:00",
+  "settings": {
+    "ui": {
+      "title": "LEGO Archive & Build Planner",
+      "chat_placeholder": "선택한 세트에 대해 질문해 보세요",
+      "collection_placeholder": "보유 세트로 무엇을 만들 수 있나요?",
+      "explore_placeholder": "원하는 세트의 조건을 입력하세요"
+    },
+    "server": {
+      "max_question_chars": 4000,
+      "keepalive_sec": 15,
+      "catalog_max_age_sec": 300,
+      "cors_origins": [],
+      "static_dir": "web"
+    },
+    "app": {
+      "name": "BrickArchivePlanner",
+      "version": "0.1",
+      "domain_label": "레고",
+      "risky_domain": false,
+      "disclaimer": "LEGO Group과 무관한 비공식 팬 프로젝트입니다."
+    },
+    "llm": {
+      "cache_enabled": true,
+      "base_url": "<OpenAI 호환 엔드포인트>",
+      "chat_model": "gpt-5.4-nano",
+      "embedding_model": "text-embedding-3-small",
+      "temperature": 0,
+      "send_temperature": true,
+      "timeout_sec": 60,
+      "max_retries": 1,
+      "structured_method": "json_mode",
+      "spike_questions_path": "eval/spike_questions.jsonl",
+      "spike_logs_dir": "logs"
+    },
+    "paths": {
+      "items": "data/raw/rebrickable",
+      "sqlite": "data/lego.sqlite",
+      "user_sqlite": "data/user.sqlite",
+      "collected_dir": "data/collected",
+      "docs_dir": "data/collected/docs",
+      "collect_sqlite": "data/collected/collect.sqlite",
+      "chroma_dir": "data/chroma",
+      "entity_rules": "config/entity_rules.yaml",
+      "ko_aliases_manual": "config/ko_aliases_manual.yaml",
+      "ko_terms": "config/ko_terms.yaml",
+      "embed_cache": "data/collected/embed_cache.sqlite"
+    },
+    "evaluation": {
+      "snapshot_dir": "data/eval_snapshot",
+      "snapshot_name": "m6-base",
+      "retrieval_file": "eval/retrieval.jsonl",
+      "routing_file": "eval/routing.jsonl",
+      "draft_file": "eval/drafts/retrieval_draft.jsonl",
+      "en_terms_cache": "eval/cache/en_terms.jsonl",
+      "results_dir": "eval/results",
+      "draft_count": 60,
+      "korean_fraction": 0.75,
+      "seed": 16,
+      "repetitions": 3,
+      "latency_collection": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ],
+      "recall_k": [
+        1,
+        3,
+        5
+      ],
+      "primary_k": 5
+    },
+    "index": {
+      "docs_include_korean": true,
+      "docs_group_policy": "tag",
+      "embed_batch_size": 64,
+      "meta_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "generic_minifig_prefixes": [
+        "Astromech Droid",
+        "Protocol Droid",
+        "Battle Droid",
+        "Clone Trooper",
+        "Stormtrooper",
+        "Droid"
+      ]
+    },
+    "collections": {
+      "items": "set_meta",
+      "docs": "set_docs"
+    },
+    "chunking": {
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "min_chunk_chars": 200,
+      "header": true
+    },
+    "verify": {
+      "enabled": true,
+      "ignore_single_digit": true,
+      "p3_max_bullets": 6,
+      "log_path": "logs/verification.jsonl"
+    },
+    "retrieval": {
+      "top_k": 5,
+      "fetch_multiplier": 4,
+      "max_chunks_per_doc": 2,
+      "max_series_chunks": 2,
+      "max_group_chunks": 2,
+      "max_list_chunks": 2,
+      "history_turns": 4,
+      "max_en_terms": 8,
+      "p3_prompt_version": "p3-v2",
+      "search_type": "similarity",
+      "mmr_fetch_k": 30,
+      "mmr_lambda": 0.5,
+      "condition_candidates": 20
+    },
+    "collection": {
+      "max_queries": 3,
+      "candidates_per_query": 5,
+      "max_docs_per_item": 6,
+      "max_docs_per_question": 2,
+      "question_time_budget_sec": 30,
+      "question_include_korean": true,
+      "p1_prompt_version": "p1-v2.1",
+      "domain_keywords": [
+        "star wars",
+        "jedi",
+        "sith",
+        "clone wars",
+        "galactic empire",
+        "rebel alliance",
+        "lucasfilm",
+        "lego",
+        "skywalker",
+        "death star"
+      ]
+    },
+    "external_api": {
+      "request_interval_sec": 0.5,
+      "max_retries": 3,
+      "timeout_sec": 20,
+      "interval_without_contact_sec": 6.5,
+      "backoff_base_sec": 2.0
+    },
+    "wikipedia": {
+      "api_url": "https://{lang}.wikipedia.org/w/api.php",
+      "article_url": "https://{lang}.wikipedia.org/wiki/{title}",
+      "langs": [
+        "en",
+        "ko"
+      ],
+      "drop_sections": {
+        "en": [
+          "See also",
+          "References",
+          "Further reading",
+          "External links",
+          "Notes",
+          "Bibliography",
+          "Citations",
+          "Sources"
+        ],
+        "ko": [
+          "같이 보기",
+          "각주",
+          "외부 링크",
+          "참고 문헌",
+          "참고 자료",
+          "출처",
+          "내용주"
+        ]
+      },
+      "min_section_chars": 40,
+      "seeds": [
+        [
+          "en",
+          "Lego Star Wars"
+        ],
+        [
+          "ko",
+          "레고 스타워즈"
+        ],
+        [
+          "en",
+          "Millennium Falcon"
+        ],
+        [
+          "en",
+          "X-wing fighter"
+        ],
+        [
+          "en",
+          "TIE fighter"
+        ],
+        [
+          "en",
+          "AT-AT"
+        ],
+        [
+          "en",
+          "Star Destroyer"
+        ]
+      ]
+    },
+    "rebrickable": {
+      "base_url": "https://cdn.rebrickable.com/media/downloads/",
+      "csv_dir": "data/raw/rebrickable",
+      "batch_size": 10000
+    },
+    "scope": {
+      "root_theme": "Star Wars",
+      "year_min": 2015,
+      "year_max": 2026,
+      "parts_min": 100,
+      "parts_max": 1500,
+      "compare_keywords": [
+        "Millennium Falcon",
+        "X-wing",
+        "TIE",
+        "AT-AT",
+        "Star Destroyer"
+      ],
+      "compare_parts_min": 100
+    },
+    "planner": {
+      "default_mode": "exact",
+      "recommend_top_n": 10,
+      "recommend_scope": [
+        "core"
+      ]
+    },
+    "compare": {
+      "variant_markers": [
+        "microfighter",
+        "cockpit",
+        "diorama",
+        "mini",
+        "midi",
+        "bag charm",
+        "key chain",
+        "magnet",
+        "bust",
+        "helmet",
+        "polybag",
+        "mech",
+        "battle pack"
+      ],
+      "set_ops_top_n": 15,
+      "table_max_rows": 30
+    },
+    "search": {
+      "default_scopes": [
+        "core",
+        "compare_only"
+      ],
+      "sql_candidate_limit": 300,
+      "review_top_n": 20,
+      "result_limit": 12,
+      "filter_prompt_version": "filter-v2",
+      "review_prompt_version": "review-v2"
+    },
+    "router": {
+      "llm_fallback": true,
+      "retry_backoff_sec": 2,
+      "error_log": "logs/orchestrator.log",
+      "min_confidence": 0.6,
+      "prompt_version": "router-v2",
+      "build_archive_pool": 30,
+      "history_answer_chars": 200,
+      "selection_prompt_version": "selection-v1",
+      "compare_cues": [
+        "연도별",
+        "판본",
+        "달라졌",
+        "변천",
+        "비교",
+        "차이"
+      ],
+      "set_ops_cues": [
+        "공통",
+        "겹치",
+        "같은 부품"
+      ],
+      "narrative_cues": [
+        "특징",
+        "역사",
+        "설명",
+        "어떤",
+        "왜",
+        "배경"
+      ]
+    }
+  },
+  "settings_hash": "9d59d68e782b3e0c8f3807abb66e9d489c9198df56b2b24bde907998688b1145",
+  "snapshot": null,
+  "cases": [
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build",
+      "tags": [
+        "구어체"
+      ],
+      "source": "pm",
+      "collection_sets": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": true,
+      "expected_route": "build_archive",
+      "tags": [
+        "결합"
+      ],
+      "source": "pm",
+      "collection_sets": [
+        [
+          "75301-1",
+          1
+        ],
+        [
+          "75300-1",
+          1
+        ],
+        [
+          "75257-1",
+          1
+        ]
+      ]
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "selected_set": "75192-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "compare",
+      "tags": [
+        "지시어",
+        "판본"
+      ],
+      "source": "pm"
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "selected_set": "75192-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "fact",
+      "tags": [
+        "지시어",
+        "구어체"
+      ],
+      "source": "pm"
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "filter",
+      "tags": [
+        "상품용어"
+      ],
+      "source": "pm"
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "selected_set": "75423-1",
+      "history": [],
+      "has_collection": false,
+      "expected_route": "narrative",
+      "tags": [
+        "별칭"
+      ],
+      "source": "pm"
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "selected_set": null,
+      "history": [],
+      "has_collection": false,
+      "expected_route": "set_ops",
+      "tags": [
+        "구어체"
+      ],
+      "source": "pm"
+    }
+  ],
+  "dataset_hash": "e43a2a44f8b038a95216410d396a5eabad7c3b39aba8504e0a2a130ad9437812",
+  "mode": "live",
+  "collect_fn": "collect_for_question",
+  "user_db": "temporary",
+  "repetitions": 3,
+  "conditions": [
+    "warm",
+    "cold"
+  ],
+  "rows": [
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 94.99659994617105,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 95
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 92.5159000325948,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 93
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 94.998300075531,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 95
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 1.484300009906292,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 1
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 1.3073000591248274,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 1
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 1.2664999812841415,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 1
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치)."
+      ],
+      "elapsed_ms": 16077.58979999926,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 176,
+        "generate_ms": 15481,
+        "total_ms": 16078
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2171,
+            "output_tokens": 513
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치)."
+      ],
+      "elapsed_ms": 9020.03929996863,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 183,
+        "generate_ms": 8381,
+        "total_ms": 9020
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2171,
+            "output_tokens": 546
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치)."
+      ],
+      "elapsed_ms": 15310.706499963999,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 179,
+        "generate_ms": 14686,
+        "total_ms": 15311
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2171,
+            "output_tokens": 376
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "fact",
+      "route": "fact",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 8.849299978464842,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 9
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "fact",
+      "route": "fact",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 8.559399982914329,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 9
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "fact",
+      "route": "fact",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 9.154999977909029,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 9
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "일부 후보의 메타 색인이 없습니다. 항목 색인을 확인하세요.",
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 146.90450008492917,
+      "timings": {
+        "routing_ms": 1,
+        "search_ms": 144,
+        "total_ms": 147
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "search": {
+          "filter": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "review": {
+            "calls": 0,
+            "cache_hit": true
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "일부 후보의 메타 색인이 없습니다. 항목 색인을 확인하세요.",
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 144.71590006724,
+      "timings": {
+        "routing_ms": 1,
+        "search_ms": 143,
+        "total_ms": 145
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "search": {
+          "filter": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "review": {
+            "calls": 0,
+            "cache_hit": true
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "일부 후보의 메타 색인이 없습니다. 항목 색인을 확인하세요.",
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 145.838399999775,
+      "timings": {
+        "routing_ms": 1,
+        "search_ms": 144,
+        "total_ms": 146
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "search": {
+          "filter": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "review": {
+            "calls": 0,
+            "cache_hit": true
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 6063.770700013265,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 182,
+        "generate_ms": 5565,
+        "total_ms": 6064
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1446,
+            "output_tokens": 358
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 3869.720399961807,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 178,
+        "generate_ms": 3394,
+        "total_ms": 3870
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1446,
+            "output_tokens": 417
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 7227.05759992823,
+      "timings": {
+        "routing_ms": 1,
+        "retrieve_ms": 185,
+        "generate_ms": 6747,
+        "total_ms": 7227
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "rag": {
+          "p1": {
+            "calls": 0,
+            "cache_hit": true
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1446,
+            "output_tokens": 229
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 1,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 33.75410009175539,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 34
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 2,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 30.720300041139126,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 31
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "warm",
+      "cache_enabled": true,
+      "repetition": 3,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 30.71049996651709,
+      "timings": {
+        "routing_ms": 1,
+        "total_ms": 31
+      },
+      "usage": {
+        "router": {
+          "cached": true
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 852.7593000326306,
+      "timings": {
+        "routing_ms": 758,
+        "total_ms": 853
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 28,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 5249.173299991526,
+      "timings": {
+        "routing_ms": 5150,
+        "total_ms": 5249
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 28,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-30",
+      "question": "내가 가진 걸로 뭘 조립할 수 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "build",
+      "route": "build",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 1146.3558999821544,
+      "timings": {
+        "routing_ms": 1050,
+        "total_ms": 1146
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 28,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 1007.1492999559268,
+      "timings": {
+        "routing_ms": 1006,
+        "total_ms": 1007
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 969,
+          "output_tokens": 38,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 1055.6492999894544,
+      "timings": {
+        "routing_ms": 1053,
+        "total_ms": 1056
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 969,
+          "output_tokens": 29,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-35",
+      "question": "내 부품으로 만들 수 있는 거 추천하고 그 기체가 어떤 건지도 설명해줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "build_archive",
+      "route": "build_archive",
+      "success": false,
+      "needs_input": "어느 세트를 말씀하시는지 세트 번호나 이름을 알려 주세요.",
+      "warnings": [],
+      "elapsed_ms": 5655.386699945666,
+      "timings": {
+        "routing_ms": 5654,
+        "total_ms": 5655
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 969,
+          "output_tokens": 36,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치).",
+        "문서 수집이 일부만 완료되었습니다. 기존 색인도 함께 검색합니다."
+      ],
+      "elapsed_ms": 28486.082199960947,
+      "timings": {
+        "routing_ms": 12957,
+        "retrieve_ms": 8018,
+        "generate_ms": 7080,
+        "total_ms": 28486
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 979,
+          "output_tokens": 35,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 2,
+            "input_tokens": 1074,
+            "output_tokens": 219
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2027,
+            "output_tokens": 400
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 1,
+          "failures": 0,
+          "partial": 1
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 1,
+        "failures": 0,
+        "partial": 1
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치)."
+      ],
+      "elapsed_ms": 15841.73099999316,
+      "timings": {
+        "routing_ms": 1027,
+        "retrieve_ms": 10898,
+        "generate_ms": 3444,
+        "total_ms": 15842
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 979,
+          "output_tokens": 42,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 1,
+            "input_tokens": 537,
+            "output_tokens": 107
+          },
+          "p2": {
+            "calls": 1,
+            "input_tokens": 802,
+            "output_tokens": 10
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2024,
+            "output_tokens": 344
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 3,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 3,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-24",
+      "question": "이전 UCS 팔콘이랑 비교하면 뭐가 바뀌었어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "compare",
+      "route": "compare",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "75257-1: 공식 부품 수 1,328개와 부품 목록 집계 1,351개가 다릅니다 (원본 불일치)."
+      ],
+      "elapsed_ms": 32852.97680005897,
+      "timings": {
+        "routing_ms": 17396,
+        "retrieve_ms": 8932,
+        "generate_ms": 6044,
+        "total_ms": 32853
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 979,
+          "output_tokens": 42,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 1,
+            "input_tokens": 537,
+            "output_tokens": 112
+          },
+          "p2": {
+            "calls": 1,
+            "input_tokens": 416,
+            "output_tokens": 10
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 2024,
+            "output_tokens": 555
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 2,
+          "skipped_queries": 1,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 2,
+        "skipped_queries": 1,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "fact",
+      "route": "fact",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 1212.588299997151,
+      "timings": {
+        "routing_ms": 1201,
+        "total_ms": 1213
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 971,
+          "output_tokens": 42,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "fact",
+      "route": "fact",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 1245.4540999606252,
+      "timings": {
+        "routing_ms": 1233,
+        "total_ms": 1245
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 971,
+          "output_tokens": 42,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-01",
+      "question": "이거 몇 피스짜리야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "fact",
+      "route": "narrative",
+      "success": false,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 5203.21760000661,
+      "timings": {
+        "routing_ms": 815,
+        "retrieve_ms": 3066,
+        "generate_ms": 1022,
+        "total_ms": 5203
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 971,
+          "output_tokens": 30,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 2,
+            "input_tokens": 1058,
+            "output_tokens": 217
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1543,
+            "output_tokens": 61
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 0,
+          "skipped_queries": 3,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "일부 후보의 메타 색인이 없습니다. 항목 색인을 확인하세요.",
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 14508.58500006143,
+      "timings": {
+        "routing_ms": 5340,
+        "search_ms": 8877,
+        "total_ms": 14509
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        },
+        "search": {
+          "filter": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 1474,
+            "output_tokens": 72
+          },
+          "review": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 1696,
+            "output_tokens": 347
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 3094.118900015019,
+      "timings": {
+        "routing_ms": 934,
+        "search_ms": 2157,
+        "total_ms": 3094
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        },
+        "search": {
+          "filter": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 1474,
+            "output_tokens": 74
+          },
+          "review": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 858,
+            "output_tokens": 28
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-07",
+      "question": "2022년에 나온 헬멧 세트 다 보여줘",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "filter",
+      "route": "filter",
+      "success": true,
+      "needs_input": null,
+      "warnings": [
+        "일부 후보의 메타 색인이 없습니다. 항목 색인을 확인하세요.",
+        "의미 탐색 결과 수는 상위 검수 대상 안에서 집계했습니다."
+      ],
+      "elapsed_ms": 11063.52990004234,
+      "timings": {
+        "routing_ms": 1051,
+        "search_ms": 10009,
+        "total_ms": 11064
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 962,
+          "output_tokens": 37,
+          "cached": false,
+          "attempts": 1
+        },
+        "search": {
+          "filter": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 1474,
+            "output_tokens": 72
+          },
+          "review": {
+            "calls": 1,
+            "cache_hit": false,
+            "input_tokens": 1696,
+            "output_tokens": 360
+          }
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 29091.23769996222,
+      "timings": {
+        "routing_ms": 1465,
+        "retrieve_ms": 24651,
+        "generate_ms": 2673,
+        "total_ms": 29091
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 978,
+          "output_tokens": 39,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 1,
+            "input_tokens": 536,
+            "output_tokens": 103
+          },
+          "p2": {
+            "calls": 1,
+            "input_tokens": 414,
+            "output_tokens": 34
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1519,
+            "output_tokens": 372
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 1,
+          "skipped_queries": 2,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 1,
+        "skipped_queries": 2,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 26418.555699987337,
+      "timings": {
+        "routing_ms": 1122,
+        "retrieve_ms": 21267,
+        "generate_ms": 3724,
+        "total_ms": 26419
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 978,
+          "output_tokens": 39,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 1,
+            "input_tokens": 536,
+            "output_tokens": 105
+          },
+          "p2": {
+            "calls": 2,
+            "input_tokens": 550,
+            "output_tokens": 10
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1519,
+            "output_tokens": 456
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 1,
+          "skipped_queries": 2,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 1,
+        "skipped_queries": 2,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-18",
+      "question": "레드 파이브가 왜 유명한 기체야?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "narrative",
+      "route": "narrative",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 19252.28229991626,
+      "timings": {
+        "routing_ms": 6355,
+        "retrieve_ms": 9038,
+        "generate_ms": 3558,
+        "total_ms": 19252
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 978,
+          "output_tokens": 39,
+          "cached": false,
+          "attempts": 1
+        },
+        "rag": {
+          "p1": {
+            "calls": 1,
+            "input_tokens": 536,
+            "output_tokens": 120
+          },
+          "p3": {
+            "calls": 1,
+            "input_tokens": 1511,
+            "output_tokens": 495
+          }
+        },
+        "collection": {
+          "calls": 1,
+          "searched": 1,
+          "skipped_queries": 2,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 1,
+        "searched": 1,
+        "skipped_queries": 2,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 1,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 931.8696999689564,
+      "timings": {
+        "routing_ms": 897,
+        "total_ms": 932
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 965,
+          "output_tokens": 35,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 2,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 6336.454999982379,
+      "timings": {
+        "routing_ms": 6301,
+        "total_ms": 6336
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 965,
+          "output_tokens": 35,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    },
+    {
+      "id": "RT-13",
+      "question": "75298이랑 75295에 둘 다 들어있는 부품 뭐 있어?",
+      "condition": "cold",
+      "cache_enabled": false,
+      "repetition": 3,
+      "expected_route": "set_ops",
+      "route": "set_ops",
+      "success": true,
+      "needs_input": null,
+      "warnings": [],
+      "elapsed_ms": 839.1352000180632,
+      "timings": {
+        "routing_ms": 807,
+        "total_ms": 839
+      },
+      "usage": {
+        "router": {
+          "input_tokens": 965,
+          "output_tokens": 35,
+          "cached": false,
+          "attempts": 1
+        },
+        "collection": {
+          "calls": 0,
+          "searched": 0,
+          "skipped_queries": 0,
+          "failures": 0,
+          "partial": 0
+        }
+      },
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      }
+    }
+  ],
+  "summary": {
+    "cold:build": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 1146.3558999821544,
+      "p90_ms": 4428.609819989651,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1050,
+          "p90_ms": 4330.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 1146,
+          "p90_ms": 4428.4
+        }
+      }
+    },
+    "cold:build_archive": {
+      "samples": 3,
+      "failures": 3,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 0,
+      "median_ms": null,
+      "p90_ms": null,
+      "timings": {}
+    },
+    "cold:compare": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 3,
+        "searched": 5,
+        "skipped_queries": 2,
+        "failures": 0,
+        "partial": 1
+      },
+      "count": 3,
+      "median_ms": 28486.082199960947,
+      "p90_ms": 31979.597880039364,
+      "timings": {
+        "generate_ms": {
+          "count": 3,
+          "median_ms": 6044,
+          "p90_ms": 6872.8
+        },
+        "retrieve_ms": {
+          "count": 3,
+          "median_ms": 8932,
+          "p90_ms": 10504.8
+        },
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 12957,
+          "p90_ms": 16508.2
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 28486,
+          "p90_ms": 31979.6
+        }
+      }
+    },
+    "cold:fact": {
+      "samples": 3,
+      "failures": 1,
+      "collection": {
+        "calls": 1,
+        "searched": 0,
+        "skipped_queries": 3,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 2,
+      "median_ms": 1229.021199978888,
+      "p90_ms": 1242.1675199642777,
+      "timings": {
+        "routing_ms": {
+          "count": 2,
+          "median_ms": 1217.0,
+          "p90_ms": 1229.8
+        },
+        "total_ms": {
+          "count": 2,
+          "median_ms": 1229.0,
+          "p90_ms": 1241.8
+        }
+      }
+    },
+    "cold:filter": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 11063.52990004234,
+      "p90_ms": 13819.573980057612,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1051,
+          "p90_ms": 4482.200000000001
+        },
+        "search_ms": {
+          "count": 3,
+          "median_ms": 8877,
+          "p90_ms": 9782.6
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 11064,
+          "p90_ms": 13820.0
+        }
+      }
+    },
+    "cold:narrative": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 3,
+        "searched": 3,
+        "skipped_queries": 6,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 26418.555699987337,
+      "p90_ms": 28556.701299967244,
+      "timings": {
+        "generate_ms": {
+          "count": 3,
+          "median_ms": 3558,
+          "p90_ms": 3690.8
+        },
+        "retrieve_ms": {
+          "count": 3,
+          "median_ms": 21267,
+          "p90_ms": 23974.2
+        },
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1465,
+          "p90_ms": 5377.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 26419,
+          "p90_ms": 28556.6
+        }
+      }
+    },
+    "cold:set_ops": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 931.8696999689564,
+      "p90_ms": 5255.537939979695,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 897,
+          "p90_ms": 5220.2
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 932,
+          "p90_ms": 5255.2
+        }
+      }
+    },
+    "warm:build": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 94.99659994617105,
+      "p90_ms": 94.99796004965901,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 95,
+          "p90_ms": 95.0
+        }
+      }
+    },
+    "warm:build_archive": {
+      "samples": 3,
+      "failures": 3,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 0,
+      "median_ms": null,
+      "p90_ms": null,
+      "timings": {}
+    },
+    "warm:compare": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 3,
+        "searched": 0,
+        "skipped_queries": 9,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 15310.706499963999,
+      "p90_ms": 15924.213139992207,
+      "timings": {
+        "generate_ms": {
+          "count": 3,
+          "median_ms": 14686,
+          "p90_ms": 15322.0
+        },
+        "retrieve_ms": {
+          "count": 3,
+          "median_ms": 179,
+          "p90_ms": 182.2
+        },
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 15311,
+          "p90_ms": 15924.6
+        }
+      }
+    },
+    "warm:fact": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 8.849299978464842,
+      "p90_ms": 9.093859978020191,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 9,
+          "p90_ms": 9.0
+        }
+      }
+    },
+    "warm:filter": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 145.838399999775,
+      "p90_ms": 146.69128006789833,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "search_ms": {
+          "count": 3,
+          "median_ms": 144,
+          "p90_ms": 144.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 146,
+          "p90_ms": 146.8
+        }
+      }
+    },
+    "warm:narrative": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 3,
+        "searched": 0,
+        "skipped_queries": 9,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 6063.770700013265,
+      "p90_ms": 6994.400219945237,
+      "timings": {
+        "generate_ms": {
+          "count": 3,
+          "median_ms": 5565,
+          "p90_ms": 6510.6
+        },
+        "retrieve_ms": {
+          "count": 3,
+          "median_ms": 182,
+          "p90_ms": 184.4
+        },
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 6064,
+          "p90_ms": 6994.4
+        }
+      }
+    },
+    "warm:set_ops": {
+      "samples": 3,
+      "failures": 0,
+      "collection": {
+        "calls": 0,
+        "searched": 0,
+        "skipped_queries": 0,
+        "failures": 0,
+        "partial": 0
+      },
+      "count": 3,
+      "median_ms": 30.720300041139126,
+      "p90_ms": 33.14734008163214,
+      "timings": {
+        "routing_ms": {
+          "count": 3,
+          "median_ms": 1,
+          "p90_ms": 1.0
+        },
+        "total_ms": {
+          "count": 3,
+          "median_ms": 31,
+          "p90_ms": 33.4
+        }
+      }
+    }
+  }
+}

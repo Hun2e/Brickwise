@@ -1,0 +1,8 @@
+{"id": "RH2-01", "question": "75304 다스 베이더 헬멧 주인공은 왜 어둠의 편이 됐어?", "selected_set": null, "history": [], "has_collection": false, "expected_route": "narrative", "tags": ["세트번호+캐릭터"], "source": "pm"}
+{"id": "RH2-02", "question": "루크는 어떤 훈련을 받았어?", "selected_set": "75327-1", "history": [], "has_collection": false, "expected_route": "narrative", "tags": ["선택세트+캐릭터"], "source": "pm"}
+{"id": "RH2-03", "question": "What can I build with my bricks, and what's the lore behind it?", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build_archive", "tags": ["결합", "영어"], "source": "pm"}
+{"id": "RH2-04", "question": "가진 부품으로 조립할 만한 걸 고르고 그게 어떤 장면에 나오는지도 알려줘", "selected_set": null, "history": [], "has_collection": true, "expected_route": "build_archive", "tags": ["결합", "지시어"], "source": "pm"}
+{"id": "RH2-05", "question": "75295랑 75375 차이", "selected_set": null, "history": [], "has_collection": false, "expected_route": "compare", "tags": ["두세트+차이", "짧음"], "source": "pm"}
+{"id": "RH2-06", "question": "75390 몇 피스야", "selected_set": null, "history": [], "has_collection": false, "expected_route": "fact", "tags": ["대조군", "구어체"], "source": "pm"}
+{"id": "RH2-07", "question": "피규어 누구누구 들어있어?", "selected_set": "75298-1", "history": [], "has_collection": false, "expected_route": "fact", "tags": ["대조군", "피규어"], "source": "pm"}
+{"id": "RH2-08", "question": "75304 출시년도", "selected_set": null, "history": [], "has_collection": false, "expected_route": "fact", "tags": ["대조군", "명사형"], "source": "pm"}

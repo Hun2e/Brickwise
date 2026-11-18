@@ -1,0 +1,7 @@
+aliases:
+  - {alias: "밀팔", canonical_en: "Millennium Falcon", kind: vehicle, verified: 0}
+  - {alias: "팔콘", canonical_en: "Millennium Falcon", kind: vehicle, verified: 0}
+  - {alias: "엑스윙", canonical_en: "X-wing fighter", kind: vehicle, verified: 0}
+  - {alias: "타이파이터", canonical_en: "TIE fighter", kind: vehicle, verified: 0}
+  - {alias: "스톰트루퍼", canonical_en: "Stormtrooper", kind: group, verified: 0}
+  - {alias: "만달로리안", canonical_en: "Mandalorian (character)", kind: character, verified: 0}
